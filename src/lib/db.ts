@@ -1,13 +1,11 @@
 // src/lib/db.ts
-import { createServerFn } from '@tanstack/start';
+// IMPORT yolunu şu şekilde değiştir:
+import { createServerFn } from '@tanstack/start/server'; 
 import { MongoClient } from 'mongodb';
 
-// MongoDB bağlantı dizesi
 const client = new MongoClient(process.env.MONGODB_URI!);
 
-// Hata veren fonksiyonu dışa aktar
 export const connectToDatabase = async () => {
-  // Cloudflare üzerinde bağlantıyı yönetmek için basit bir kontrol
   if (!client.topology || !client.topology.isConnected()) {
     await client.connect();
   }
