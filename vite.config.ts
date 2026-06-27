@@ -6,17 +6,19 @@ export default defineConfig({
   },
   vite: {
     resolve: {
-      tsconfigPaths: true, // Vite'ın native desteğini aktif ettik
+      tsconfigPaths: true,
     },
     build: {
       rollupOptions: {
-        // Hatalı build'leri engellemek için paketleri dışarıdan yönetiyoruz
-        external: ['@tanstack/react-start', '@tanstack/start', 'mongodb'],
+        // Build sırasında bu paketleri dışarıdan bağımsız bırakıyoruz,
+        // böylece build motoru bunları kendi içine kopyalamaya çalışıp hata vermiyor.
+        external: ['mongodb'], 
       },
     },
     ssr: {
-      // Server-side paket çözümleme hatalarını önler
-      noExternal: ['@tanstack/react-start'],
+      // TanStack paketlerini bundle'a dahil ediyoruz ki runtime'da eksik kalmasınlar,
+      // MongoDB'yi ise external bırakıyoruz çünkü native node modülü olarak yüklenmeli.
+      noExternal: ['@tanstack/react-start', '@tanstack/start'],
     },
   },
 });
