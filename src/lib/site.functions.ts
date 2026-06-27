@@ -19,7 +19,7 @@ const contactSchema = z.object({
 });
 
 export const submitContact = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => contactSchema.parse(d))
+  .validator((d: unknown) => contactSchema.parse(d))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
@@ -57,7 +57,7 @@ const newsletterSchema = z.object({
 });
 
 export const subscribeNewsletter = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => newsletterSchema.parse(d))
+  .validator((d: unknown) => newsletterSchema.parse(d))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const email = data.email.toLowerCase();
@@ -76,7 +76,7 @@ export const subscribeNewsletter = createServerFn({ method: "POST" })
 const statusSchema = z.object({ host: z.string().min(1).max(100) });
 
 export const getServerStatus = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => statusSchema.parse(d))
+  .validator((d: unknown) => statusSchema.parse(d))
   .handler(async ({ data }) => {
     const started = Date.now();
     try {
@@ -132,7 +132,7 @@ export const getNewsList = createServerFn({ method: "GET" })
 
 // Sadece adresteki slug'a göre tek bir haberi çeken fonksiyon (GET) - Optimizasyonlu
 export const getNewsBySlug = createServerFn({ method: "GET" })
-  .inputValidator((d: unknown) => slugSchema.parse(d))
+  .validator((d: unknown) => slugSchema.parse(d))
   .handler(async ({ data }) => {
     try {
       await connectToDatabase();
