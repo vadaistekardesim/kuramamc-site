@@ -4,28 +4,27 @@ import { useServerFn } from "@tanstack/react-start";
 import { Copy, LogIn, UserPlus, Server, MessageCircle, ChevronRight, Home, Calendar, User, Eye, MessageSquare } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import logo from "@/assets/logo.png";
-import { getServerStatus } from "@/lib/site.functions"; // Kendi fonksiyon yoluna göre ayarlayabilirsin
+import { getServerStatus } from "@/lib/site.functions";
 
-// Örnek TanStack Route tanımı - url yapına göre değiştirebilirsin
+// Dosya ismin blog.haberler._slug.tsx olduğu için rota tanımı bu şekilde kalmalıdır
 export const Route = createFileRoute("/blog/haberler/$slug")({
-  component: NewsDetail,
+  component: TownyNewsDetail,
 });
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
 
-export function NewsDetail() {
-  const { slug } = Route.useParams();
+export function TownyNewsDetail() {
   const [copied, setCopied] = useState(false);
   
-  // Örnek dinamik veri yapısı (Burayı kendi veri çekme fonksiyonunla besleyebilirsin)
-  const [news, setNews] = useState({
+  // image_a7f520.jpg görselindeki tasarıma göre MrShivada bilgileri eklendi
+  const news = {
     title: "KuramaMC Towny Sunucusu Yakında Açılıyor!",
     content: "Gelişmiş teması ve eşsiz mekanikleriyle yeni Towny sunucumuz çok yakın...",
-    author: "Shiva",
+    author: "MrShivada",
     date: "27.06.2026",
-    views: 124,
+    views: 1,
     comments: 0
-  });
+  };
 
   const copyIp = () => {
     navigator.clipboard.writeText(SERVER_IP).then(() => {
@@ -35,9 +34,10 @@ export function NewsDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Üst Kısım: image_a7eceb.jpg'deki gibi Header ve Hero Alanı */}
-      <section className="relative isolate overflow-hidden pb-16">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+      
+      {/* Üst Alan: Header ve Arka Plan Görselleri */}
+      <section className="relative isolate overflow-hidden pb-12">
         <img src={heroBg} alt="" width={1920} height={1280} className="absolute inset-0 -z-10 h-full w-full object-cover" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber-500/20 via-background/80 to-background" />
         
@@ -74,16 +74,16 @@ export function NewsDetail() {
           </div>
         </header>
 
-        {/* Orta Logo Alanı */}
-        <div className="relative z-10 mx-auto flex flex-col items-center pt-10 text-center">
+        {/* KuramaMC Logosu */}
+        <div className="relative z-10 mx-auto flex flex-col items-center pt-8 text-center">
           <img src={logo} alt="KuramaMC" width={96} height={96} className="drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.4)]" />
         </div>
       </section>
 
-      {/* İçerik Kısmı */}
+      {/* Sayfa İçerik Alanı */}
       <main className="mx-auto max-w-4xl px-6 pb-24">
         
-        {/* Breadcrumb (Yol Haritası) - image_a7eceb.jpg Tasarımı */}
+        {/* Breadcrumb (Yol Haritası) - image_a7f520.jpg ile Birebir */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-card/60 px-4 py-2.5 text-xs font-medium text-muted-foreground backdrop-blur">
           <a href="/" className="flex items-center gap-1 hover:text-foreground transition">
             <Home className="size-3.5" /> Ana Sayfa
@@ -93,26 +93,28 @@ export function NewsDetail() {
           <ChevronRight className="size-3 text-white/30" />
           <span className="text-white/40">Bildiri</span>
           <ChevronRight className="size-3 text-white/30" />
-          <span className="text-primary font-semibold truncate max-w-[200px]">{news.title}</span>
+          <span className="text-primary font-semibold truncate max-w-[240px]">{news.title}</span>
         </div>
 
-        {/* Ana Haber Kartı */}
-        <article className="overflow-hidden rounded-3xl border border-white/10 bg-card backdrop-blur shadow-2xl">
+        {/* Ana Haber İçerik Kutusu */}
+        <article className="overflow-hidden rounded-3xl border border-white/10 bg-card/70 backdrop-blur-md shadow-2xl">
           <div className="p-6 sm:p-8">
             
-            {/* Başlık */}
+            {/* Haber Başlığı */}
             <h1 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl text-foreground mb-6">
               {news.title}
             </h1>
 
-            {/* Yazar ve Meta Bilgileri Alanı */}
+            {/* Profil ve Bilgi Çubuğu */}
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
               <div className="flex items-center gap-3">
-                {/* Minotar ile Yazar Kafası */}
+                {/* Belirttiğin Skin Kafası Linki */}
                 <img
-                  src={`https://minotar.net/avatar/${news.author}/40`}
+                  src="https://minotar.net/avatar/MrShivada/38"
                   alt={news.author}
-                  className="size-10 rounded-lg bg-white/5 ring-1 ring-white/10"
+                  width={38}
+                  height={38}
+                  className="rounded-md bg-white/5 ring-1 ring-white/10 shadow-md"
                 />
                 <div>
                   <div className="text-sm font-bold text-foreground flex items-center gap-1.5">
@@ -124,7 +126,7 @@ export function NewsDetail() {
                 </div>
               </div>
 
-              {/* Sağ Taraf: Gösterim ve Yorum Sayaçları */}
+              {/* Sayaç İkonları */}
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-muted-foreground">
                   <Eye className="size-3.5 text-amber-500/80" /> {news.views}
@@ -135,22 +137,22 @@ export function NewsDetail() {
               </div>
             </div>
 
-            {/* Haber Metni İçeriği */}
-            <div className="prose prose-invert max-w-none text-muted-foreground text-base leading-relaxed space-y-4">
+            {/* Haber Metni */}
+            <div className="prose prose-invert max-w-none text-muted-foreground text-base leading-relaxed">
               <p>{news.content}</p>
             </div>
 
           </div>
         </article>
 
-        {/* Yorumlar Alanı Başlangıcı (Gerekirse eklenebilir) */}
-        <div className="mt-6 rounded-2xl bg-gradient-amber/10 border border-amber-500/20 p-4 text-center text-xs font-bold uppercase tracking-wider text-amber-300">
+        {/* Alt Kısım Bildirimi */}
+        <div className="mt-6 rounded-2xl bg-gradient-amber/10 border border-amber-500/20 p-4 text-center text-xs font-bold uppercase tracking-wider text-amber-300 backdrop-blur-sm">
           Yorumlar Kapalı
         </div>
 
       </main>
 
-      {/* Alt Bilgi */}
+      {/* Footer */}
       <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.
       </footer>
@@ -158,7 +160,6 @@ export function NewsDetail() {
   );
 }
 
-// Canlı çevrimiçi oyuncu dot bileşeni
 function LiveDot() {
   const [s, setS] = useState<{ online: boolean; players: number; max: number } | null>(null);
   const fetchStatus = useServerFn(getServerStatus);
