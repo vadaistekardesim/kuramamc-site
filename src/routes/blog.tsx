@@ -1,6 +1,6 @@
 // src/routes/blog.tsx
 import { createFileRoute, Link, useLocation } from '@tanstack/react-router';
-import { Calendar, User, ArrowRight, BookOpen, Eye, MessageSquare, ChevronRight, Home, Server, MessageCircle, LogIn, UserPlus } from 'lucide-react';
+import { Calendar, User, ArrowRight, BookOpen, Eye, MessageSquare, ChevronRight, Home, Server, MessageCircle, LogIn, UserPlus, Image as ImageIcon } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -9,6 +9,7 @@ import { getServerStatus } from "@/lib/site.functions";
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
 
+// HABERLERE IMAGE ALANI EKLENDİ
 const MANUAL_NEWS = [
   {
     _id: "1",
@@ -16,6 +17,8 @@ const MANUAL_NEWS = [
     tag: "DUYURU",
     title: "⚔️ Gelişmiş Towny Dünyası Açılıyor!",
     author: "MrShivada",
+    // İster lokal import (Örn: townyImg), ister uzak URL ekleyebilirsin
+    image: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=1200", 
     excerpt: "Gelişmiş teması, eşsiz mekanikleri ve kusursuz ağ mimarisiyle yeni Towny sunucumuz çok yakın...",
     body: `Değerli KuramaMC topluluğu ve asil kasaba liderleri,
 
@@ -41,6 +44,7 @@ Takipte kalın, gözünüz bizde olsun.`,
     tag: "DUYURU",
     title: "☁️ Gelişmiş Skyblock Dünyası Geliyor!",
     author: "MrShivada",
+    image: "", // Boş bırakılırsa otomatik şık bir yer tutucu gradient görünecek
     excerpt: "Gökyüzündeki imparatorluğunuzu kurmaya hazır olun. Tamamen baştan tasarlanan gelişmiş Skyblock sunucumuz çok yakında kapılarını açıyor!",
     body: `Selam KuramaMC adalıları,
 
@@ -50,7 +54,7 @@ Skyblock deneyimini gökyüzünün ötesine taşımaya hazır mısınız? Klasik
 
 • Gelişmiş Ada Yönetimi: Yepyeni yükseltme (upgrade) menüleri, dinamik ada sınırları ve takım görevleri ile adanızı devasa bir imparatorluğa dönüştürün.
 • Otomasyon ve Çiftçilik Devrimi: Özel minyonlar, gelişmiş tarım mekanikleri ve adanıza özel üretim bantları sayesinde pasif gelirinizi optimize edin.
-• Büyük Sezon Ödülleri: Rekabeti en üst düzeni çıkaracak, her hafta güncellenen ada sıralaması (IS-TOP) ödülleri ve özel kozmetikler.
+• Büyük Sezon Ödülleri: Rekabeti en üst düzeye çıkaracak, her hafta güncellenen ada sıralaması (IS-TOP) ödülleri ve özel kozmetikler.
 • Gelişmiş Özel Ekonomi: Enflasyonu önleyen, tamamen optimize edilmiş ve uzun soluklu bir Skyblock ticaret döngüsü.
 
 Gökyüzünün hakimi olmak ve adanızı en tepeye taşımak için hazırlıklara başlayın. Resmi açılış saati ve yeni dünyaya özel avantajlı ön satış detayları çok yakında Discord kanalımızda yayınlanacaktır!
@@ -75,13 +79,11 @@ function BlogComponent() {
 
   const isDetailActive = location.pathname.includes('/blog/haberler/');
 
-  // ORTAK HEADER & HERO BİLEŞENİ
   const renderHeader = (titleText: string, descriptionText: string) => (
     <section className="relative isolate overflow-hidden pb-12">
       <img src={heroBg} alt="" width={1920} height={1280} className="absolute inset-0 -z-10 h-full w-full object-cover" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber-500/20 via-background/80 to-background" />
       
-      {/* Navbar */}
       <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
           <div className="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5">
@@ -114,7 +116,6 @@ function BlogComponent() {
         </div>
       </header>
 
-      {/* Başlık ve Logo Alanı */}
       <div className="relative z-10 mx-auto flex flex-col items-center pt-8 text-center px-4">
         <img src={logo} alt="KuramaMC" width={96} height={96} className="drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.4)] mb-6" />
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm font-medium mb-4 border border-orange-500/20 backdrop-blur-sm">
@@ -140,7 +141,6 @@ function BlogComponent() {
         {renderHeader("Haberler & Güncellemeler", "Sunucumuzla ilgili en son gelişmeleri buradan takip edebilirsiniz.")}
 
         <main className="mx-auto max-w-4xl px-6 pb-24 -mt-4 relative z-20">
-          {/* Breadcrumb */}
           <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-card/60 px-4 py-2.5 text-xs font-medium text-muted-foreground backdrop-blur">
             <Link to="/" className="flex items-center gap-1 hover:text-foreground transition">
               <Home className="size-3.5" /> Ana Sayfa
@@ -154,6 +154,21 @@ function BlogComponent() {
           </div>
 
           <article className="overflow-hidden rounded-3xl border border-white/10 bg-card/70 backdrop-blur-md shadow-2xl">
+            
+            {/* DETAY SAYFASI GÖRSEL ALANI */}
+            {activeNews.image ? (
+              <div className="w-full h-64 md:h-96 relative overflow-hidden border-b border-white/10">
+                <img 
+                  src={activeNews.image} 
+                  alt={activeNews.title} 
+                  className="w-full h-full object-cover select-none" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
+              </div>
+            ) : (
+              <div className="w-full h-32 bg-gradient-to-r from-amber-600/20 via-orange-600/10 to-transparent border-b border-white/5" />
+            )}
+
             <div className="p-6 sm:p-8">
               <h1 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl text-foreground mb-6">
                 {activeNews.title}
@@ -206,7 +221,7 @@ function BlogComponent() {
     );
   }
 
-  // --- ANA LİSTELEME EKRANI (Üst Kısım Entegre Edildi) ---
+  // --- ANA LİSTELEME EKRANI ---
   return (
     <div className="min-h-screen bg-background text-white">
       {renderHeader("Haberler & Güncellemeler", "Sıfırdan açılacak gelişmiş Towny ve Skyblock dünyalarımızın en güncel gelişmelerini buradan takip edebilirsiniz.")}
@@ -216,13 +231,30 @@ function BlogComponent() {
           {news.map((item) => (
             <article 
               key={item._id} 
-              className="group flex flex-col bg-[#151a23]/80 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
+              className="group flex flex-col bg-[#151a23]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
             >
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="bg-orange-500/10 text-orange-500 font-bold text-xs px-2.5 py-1 rounded border border-orange-500/20 uppercase">
+              {/* KART ÜSTÜ RESİM ALANI */}
+              <div className="w-full h-48 relative overflow-hidden bg-gray-900 flex items-center justify-center border-b border-gray-800">
+                {item.image ? (
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none" 
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-orange-600/20 via-slate-800 to-[#151a23] flex items-center justify-center">
+                    <ImageIcon className="size-8 text-gray-700 group-hover:text-orange-500/40 transition-colors" />
+                  </div>
+                )}
+                <div className="absolute top-4 left-4">
+                  <span className="bg-orange-500/90 backdrop-blur text-white font-bold text-[10px] tracking-wide px-2.5 py-1 rounded-md uppercase shadow-md">
                     {item.tag}
                   </span>
+                </div>
+              </div>
+
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center justify-between mb-3">
                   <span className="text-xs flex items-center gap-1 text-gray-500">
                     <Calendar size={12} />
                     {new Date(item.createdAt).toLocaleDateString('tr-TR')}
@@ -233,7 +265,7 @@ function BlogComponent() {
                   {item.title}
                 </h2>
 
-                <p className="text-gray-400 text-sm line-clamp-3 mb-6 flex-grow">
+                <p className="text-gray-400 text-sm line-clamp-2 mb-6 flex-grow">
                   {item.excerpt}
                 </p>
 
