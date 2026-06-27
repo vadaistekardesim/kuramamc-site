@@ -4,23 +4,25 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
-  // Lovable config'in sunduğu vite alanına eklemeler yapıyoruz
   vite: {
     resolve: {
+      // tr46'nın "punycode/" isteğini doğrudan "punycode" paketine eşle
       alias: {
-        // punycode'u boş bir modüle yönlendirerek hatayı "susturuyoruz"
-        punycode: "punycode",
+        "punycode/": "punycode/",
+        "punycode": "punycode"
       },
     },
     build: {
       rollupOptions: {
-        // Hatalı bağımlılığın build'i kırmasını engelle
-        external: ["punycode"],
+        // Build motoruna "punycode ile ilgili her şeyi es geç" diyoruz
+        external: ["punycode", "punycode/"]
       },
+      chunkSizeWarningLimit: 1000
     },
     ssr: {
-      // SSR ortamında bu paketi dışarıda tut
-      noExternal: ["tr46"],
-    },
+      // SSR motoruna bu paketleri "external" (dışsal) olarak yüklemesini söyle
+      external: ["punycode", "tr46"],
+      noExternal: []
+    }
   },
 });
