@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Copy, LogIn, UserPlus, Users, Activity, Megaphone, ChevronDown, MessageCircle, Server, ShoppingBag, LifeBuoy, Circle as HelpCircle, Trophy, Crown, Sparkles, Mail, Send, CircleCheck as CheckCircle2, Loader as Loader2, Signal, Wifi, Clock } from "lucide-react";
+import { Copy, LogIn, UserPlus, Users, Activity, ChevronDown, MessageCircle, Server, ShoppingBag, LifeBuoy, Circle as HelpCircle, Trophy, Crown, Sparkles, Mail, Send, CircleCheck as CheckCircle2, Loader as Loader2, Signal, Wifi, Clock, Calendar, User, ArrowRight, Image as ImageIcon } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import logo from "@/assets/logo.png";
 import { submitContact, subscribeNewsletter, getServerStatus } from "@/lib/site.functions";
@@ -33,18 +33,27 @@ const faqs = [
   { q: "Hangi sürümlerden bağlanabilirim?", a: "1.20.x ve üzeri tüm Java Edition sürümlerinden bağlanabilirsiniz." },
 ];
 
+// BLOG SAYFASINDAKİ RESİMLİ VE SLUG'LI YENİ HABER YAPISI ENTEGRE EDİLDİ
 const STATIC_NEWS = [
   {
-    _id: "news-1",
-    title: "KuramaMC Sezon 2 Başlıyor!",
-    createdAt: "2026-06-25T14:00:00.000Z",
-    content: "Uzun süredir üzerinde çalıştığımız KuramaMC Sezon 2 nihayet kapılarını açıyor! Sadece Survival modelinden hibrit Towny + Skyblock ağ yapısına geçiş yaptığımız bu yeni sezonda, tamamen optimize edilmiş gelişmiş sistemler, özel dokular ve dengeli bir ekonomi sizleri bekliyor. Topluluğumuzun geri bildirimleriyle şekillenen bu devasa güncellemeyi kaçırmamak için yerinizi şimdiden ayırtın!"
+    _id: "1",
+    slug: "towny-yakinda-aciliyor",
+    tag: "DUYURU",
+    title: "⚔️ Gelişmiş Towny Dünyası Açılıyor!",
+    author: "MrShivada",
+    image: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=1200", 
+    excerpt: "Gelişmiş teması, eşsiz mekanikleri ve kusursuz ağ mimarisiyle yeni Towny sunucumuz çok yakın...",
+    createdAt: "2026-06-27T13:25:00.000Z"
   },
   {
-    _id: "news-2",
-    title: "Gelişmiş Towny Altyapısı ve Yenilikler",
-    createdAt: "2026-06-20T11:30:00.000Z",
-    content: "Yeni Towny sunucumuzda kasaba kurma ve yönetme deneyimini en üst seviyeye taşıdık. Gelişmiş vergi sistemleri, dinamik harita entegrasyonu, özel kuşatma mekanizmaları ve oyuncu odaklı ticaret döngüsü aktif edildi. Kendi krallığınızı kurup sunucunun en güçlü oluşumu haline gelmek için stratejinizi belirleyin ve ittifaklarınızı kurmaya başlayın!"
+    _id: "2",
+    slug: "skyblock-yakinda-aciliyor",
+    tag: "DUYURU",
+    title: "☁️ Gelişmiş Skyblock Dünyası Geliyor!",
+    author: "MrShivada",
+    image: "", // Boş bırakıldığı için şık gradient yer tutucu görünecek
+    excerpt: "Gökyüzündeki imparatorluğunuzu kurmaya hazır olun. Tamamen baştan tasarlanan gelişmiş Skyblock sunucumuz çok yakında kapılarını açıyor!",
+    createdAt: "2026-06-28T10:00:00.000Z"
   }
 ];
 
@@ -61,7 +70,7 @@ function Home() {
 
   return (
     <div className="min-h-screen overflow-x-hidden select-none">
-      {/* Özel Giriş Efekti Stili (Tailwind'e ekstra keyframe eklemek yerine doğrudan CSS enjekte edilmiştir) */}
+      {/* Özel Giriş Efekti Stili */}
       <style>{`
         @keyframes customScaleUp {
           0% {
@@ -117,15 +126,11 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
         </div>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
-          {[
-            { l: "Ana Sayfa", h: "#" },
-            { l: "Launcher", h: "/launcher" },
-            { l: "Haberler", h: "/blog" },
-            { l: "Mağaza", h: "/magaza" },
-            { l: "Destek", h: "/destek" }
-          ].map((x, i) => (
-            <a key={x.l} href={x.h} className={`rounded-full px-4 py-2 text-sm transition ${i === 0 ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground"}`}>{x.l}</a>
-          ))}
+          <Link to="/" className="rounded-full px-4 py-2 text-sm bg-white/10 text-foreground transition">Ana Sayfa</Link>
+          <Link to="/launcher" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Launcher</Link>
+          <Link to="/blog" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Haberler</Link>
+          <a href="#" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Mağaza</a>
+          <a href="#contact" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Destek</a>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -144,7 +149,7 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
           <span className="text-gradient-amber">KuramaMC</span>
         </h1>
         <p className="mt-6 max-w-xl text-lg text-muted-foreground opacity-0 animate-entrance delay-3">
-          Gelişmiş altyapısı, kaliteli sistemleri macro yapıları ve kararlı yapısıyla benzersiz bir Minecraft deneyimi.
+          Gelişmiş altyapısı, kaliteli sistemleri ve kararlı yapısıyla benzersiz bir Minecraft deneyimi.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3 opacity-0 animate-entrance delay-4">
@@ -260,21 +265,6 @@ function StatusSection() {
 }
 
 function NewsSection() {
-  const [expandedNews, setExpandedNews] = useState<Record<string, boolean>>({});
-
-  const toggleExpand = (id: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    setExpandedNews((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  const formatDate = (isoString: string) => {
-    const d = new Date(isoString);
-    return d.toLocaleDateString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-  };
-
   return (
     <section id="news" className="mx-auto max-w-7xl px-6 py-24 opacity-0 animate-entrance delay-4">
       <div className="mb-12 text-center">
@@ -282,33 +272,66 @@ function NewsSection() {
         <p className="mt-3 text-muted-foreground">Sunucumuzdan en son gelişmeler, etkinlikler ve duyurular.</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto items-start">
-        {STATIC_NEWS.map((n) => {
-          const isExpanded = !!expandedNews[n._id];
-          return (
-            <article key={n._id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card p-6 backdrop-blur transition hover:border-primary/40">
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-amber opacity-60" />
-              <div className="mb-4 flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-semibold text-primary">
-                  <Megaphone className="size-3" /> Duyuru
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {STATIC_NEWS.map((item) => (
+          <article 
+            key={item._id} 
+            className="group flex flex-col bg-[#151a23]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
+          >
+            {/* KART ÜSTÜ RESİM ALANI */}
+            <div className="w-full h-48 relative overflow-hidden bg-gray-900 flex items-center justify-center border-b border-gray-800">
+              {item.image ? (
+                <img 
+                  src={item.image} 
+                  alt={item.title} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none" 
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-orange-600/20 via-slate-800 to-[#151a23] flex items-center justify-center">
+                  <ImageIcon className="size-8 text-gray-700 group-hover:text-orange-500/40 transition-colors" />
+                </div>
+              )}
+              <div className="absolute top-4 left-4">
+                <span className="bg-orange-500/90 backdrop-blur text-white font-bold text-[10px] tracking-wide px-2.5 py-1 rounded-md uppercase shadow-md">
+                  {item.tag}
                 </span>
-                <span className="text-xs text-muted-foreground">{formatDate(n.createdAt)}</span>
               </div>
-              <h3 className="text-xl font-bold line-clamp-2">{n.title}</h3>
-              
-              <p className={`mt-2 text-sm text-muted-foreground transition-all duration-200 ${isExpanded ? "" : "line-clamp-3"}`}>
-                {n.content}
+            </div>
+
+            <div className="p-6 flex flex-col flex-grow">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs flex items-center gap-1 text-gray-500">
+                  <Calendar size={12} />
+                  {new Date(item.createdAt).toLocaleDateString('tr-TR')}
+                </span>
+              </div>
+
+              <h2 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors line-clamp-2">
+                {item.title}
+              </h2>
+
+              <p className="text-gray-400 text-sm line-clamp-2 mb-6 flex-grow">
+                {item.excerpt}
               </p>
-              
-              <button 
-                onClick={(e) => toggleExpand(n._id, e)} 
-                className="mt-5 inline-flex text-sm font-semibold text-primary hover:underline bg-transparent border-none cursor-pointer p-0"
-              >
-                {isExpanded ? "← Kapat" : "Detaylar →"}
-              </button>
-            </article>
-          );
-        })}
+
+              <div className="flex items-center justify-between pt-4 border-t border-gray-800 mt-auto">
+                <div className="flex items-center gap-1 text-xs text-gray-400">
+                  <User size={12} className="text-orange-500" />
+                  <span>{item.author}</span>
+                </div>
+                
+                {/* DOĞRUDAN DETAY SAYFASI LİNKİNE GÖNDEREN YAPI */}
+                <Link 
+                  to={`/blog/haberler/${item.slug}`}
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-orange-500 group-hover:text-orange-400"
+                >
+                  Detaylar 
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
