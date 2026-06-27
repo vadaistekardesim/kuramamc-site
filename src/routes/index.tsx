@@ -4,27 +4,21 @@ import { useServerFn } from "@tanstack/react-start";
 import { Copy, LogIn, UserPlus, Users, Activity, Megaphone, ChevronDown, MessageCircle, Server, ShoppingBag, LifeBuoy, Circle as HelpCircle, Trophy, Crown, Sparkles, Mail, Send, CircleCheck as CheckCircle2, Loader as Loader2, Signal, Wifi, Clock } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import logo from "@/assets/logo.png";
-import { submitContact, subscribeNewsletter, getServerStatus } from "@/lib/site.functions";
+import { submitContact, subscribeNewsletter, getServerStatus, getNewsList } from "@/lib/site.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "KuramaMC — Minecraft Sunucusu" },
-      { name: "description", content: "KuramaMC: cherry blossom temalı, kaliteli ve kararlı bir Minecraft deneyimi. IP: oyna.kuramamc.com.tr" },
+      { title: "KuramaMC — Gelişmiş Minecraft Deneyimi" },
+      { name: "description", content: "KuramaMC: Gelişmiş temalı, kaliteli, yüksek performanslı ve kararlı bir Minecraft deneyimi. IP: oyna.kuramamc.com.tr" },
       { property: "og:title", content: "KuramaMC" },
-      { property: "og:description", content: "Farklı bir Minecraft deneyimi. IP: oyna.kuramamc.com.tr" },
+      { property: "og:description", content: "Gelişmiş ve yenilikçi bir Minecraft deneyimi. IP: oyna.kuramamc.com.tr" },
     ],
   }),
   component: Home,
 });
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
-
-const news = [
-  { tag: "Bildiri", date: "12 Haz, 18:00", title: "Yeni VIPLER", body: "Yeni eklenen VIP paketleriyle çok daha fazla ayrıcalığa sahip olabilirsiniz." },
-  { tag: "Bildiri", date: "10 Haz, 21:15", title: "Spawn Düzenlemesi", body: "SMP başlangıç bölgesi tamamen yenilendi. Keyifli oyunlar dileriz." },
-  { tag: "Bildiri", date: "08 Haz, 12:40", title: "Discord Çekilişleri", body: "Discord sunucumuzda VIP, anahtar ve daha fazlasını hediye ediyoruz." },
-];
 
 const weekly = [
   { name: "ruyagibi", amount: "9,175.00 ₺" },
@@ -113,7 +107,6 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
           </a>
         </div>
 
-        {/* GÜNCELLENENÜST MENÜ ALANI */}
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
           {[
             { l: "Ana Sayfa", h: "#" },
@@ -142,7 +135,7 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
           <span className="text-gradient-amber">KuramaMC</span>
         </h1>
         <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-          Cherry blossom temalı, kaliteli ve kararlı bir Minecraft deneyimi.
+          Gelişmiş altyapısı, kaliteli sistemleri ve kararlı yapısıyla benzersiz bir Minecraft deneyimi.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -258,28 +251,59 @@ function StatusSection() {
 }
 
 function NewsSection() {
+  const [dbNews, setDbNews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const fetchNews = useServerFn(getNewsList);
+
+  useEffect(() => {
+    fetchNews()
+      .then((data) => {
+        setDbNews(data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [fetchNews]);
+
+  const formatDate = (isoString: string | null) => {
+    if (!isoString) return "—";
+    const d = new Date(isoString);
+    return d.toLocaleDateString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  };
+
   return (
     <section id="news" className="mx-auto max-w-7xl px-6 py-24">
       <div className="mb-12 text-center">
         <h2 className="text-4xl font-extrabold md:text-5xl">Son <span className="text-gradient-amber">Güncellemeler</span></h2>
         <p className="mt-3 text-muted-foreground">Sunucumuza eklenen en yeni özellikler ve haberler.</p>
       </div>
-      <div className="grid gap-6 md:grid-cols-3">
-        {news.map((n) => (
-          <article key={n.title} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card p-6 backdrop-blur transition hover:border-primary/40">
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-amber opacity-60" />
-            <div className="mb-4 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-semibold text-primary">
-                <Megaphone className="size-3" /> {n.tag}
-              </span>
-              <span className="text-xs text-muted-foreground">{n.date}</span>
-            </div>
-            <h3 className="text-xl font-bold">{n.title}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{n.body}</p>
-            <a href="#" className="mt-5 inline-flex text-sm font-semibold text-primary hover:underline">Detaylar →</a>
-          </article>
-        ))}
-      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <Loader2 className="size-8 animate-spin text-primary" />
+        </div>
+      ) : dbNews.length === 0 ? (
+        <p className="text-center text-sm text-muted-foreground">Henüz eklenmiş bir duyuru bulunmuyor.</p>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-3">
+          {dbNews.map((n) => (
+            <article key={n._id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card p-6 backdrop-blur transition hover:border-primary/40">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-amber opacity-60" />
+              <div className="mb-4 flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-semibold text-primary">
+                  <Megaphone className="size-3" /> Duyuru
+                </span>
+                <span className="text-xs text-muted-foreground">{formatDate(n.createdAt)}</span>
+              </div>
+              <h3 className="text-xl font-bold line-clamp-1">{n.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{n.content}</p>
+              <a href={`/news/${n.slug}`} className="mt-5 inline-flex text-sm font-semibold text-primary hover:underline">Detaylar →</a>
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
@@ -361,7 +385,6 @@ function ContactSection() {
       elapsedMs: Date.now() - mountedAt.current,
     };
 
-    // Client-side validation mirrors server
     const ce: Record<string, string> = {};
     if (!payload.name.trim()) ce.name = "İsim zorunlu";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) ce.email = "Geçerli e-posta girin";
@@ -385,11 +408,10 @@ function ContactSection() {
     <section id="contact" className="mx-auto max-w-3xl px-6 py-24">
       <div className="mb-10 text-center">
         <h2 className="text-4xl font-extrabold md:text-5xl">Bize <span className="text-gradient-amber">Ulaşın</span></h2>
-        <p className="mt-3 text-muted-foreground">Sorularınız, önerileriniz veya iş birliği için doldurun. 24 saat içinde dönüş yaparız.</p>
+        <p className="mt-3 text-muted-foreground">Sorularınız, önerileriniz veya iş birliği için doldurun. En kısa sürede dönüş yaparız.</p>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-4 rounded-3xl border border-white/10 bg-card p-6 backdrop-blur sm:p-8">
-        {/* honeypot — hidden from humans */}
         <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"
           className="pointer-events-none absolute -left-[9999px] size-0 opacity-0" />
 
@@ -492,6 +514,35 @@ function NewsletterSection() {
         {state === "err" && (
           <div className="mx-auto mt-4 inline-flex rounded-full bg-rose-500/10 px-4 py-2 text-sm text-rose-300">{msg}</div>
         )}
+      </div>
+    </section>
+  );
+}
+
+function FAQSection({ faqs, open, setOpen }: { faqs: { q: string; a: string }[]; open: number | null; setOpen: (n: number | null) => void }) {
+  return (
+    <section id="faq" className="mx-auto max-w-4xl px-6 py-24">
+      <div className="mb-12 text-center">
+        <h2 className="text-4xl font-extrabold md:text-5xl">Sıkça Sorulan <span className="text-gradient-amber">Sorular</span></h2>
+        <p className="mt-3 text-muted-foreground">Sunucumuz hakkında en çok sorulan sorular.</p>
+        <a href="#contact" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-amber px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]">
+          <LifeBuoy className="size-4" /> Destek Al
+        </a>
+      </div>
+      <div className="space-y-3">
+        {faqs.map((f, i) => (
+          <div key={i} className="overflow-hidden rounded-2xl border border-white/10 bg-card backdrop-blur">
+            <button onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between px-5 py-4 text-left">
+              <span className="flex items-center gap-3 font-semibold">
+                <HelpCircle className="size-5 text-primary" />
+                <span className="text-sm text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
+                {f.q}
+              </span>
+              <ChevronDown className={`size-5 text-muted-foreground transition ${open === i ? "rotate-180" : ""}`} />
+            </button>
+            {open === i && <div className="border-t border-white/5 px-5 py-4 text-sm text-muted-foreground">{f.a}</div>}
+          </div>
+        ))}
       </div>
     </section>
   );
