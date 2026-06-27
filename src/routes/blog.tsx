@@ -9,7 +9,7 @@ const MANUAL_NEWS = [
     slug: "towny-yakinda-aciliyor",
     tag: "DUYURU",
     title: "KuramaMC Towny Sunucusu Yakında Açılıyor!",
-    author: "Shiva",
+    author: "MrShivada",
     excerpt: "Gelişmiş teması ve eşsiz mekanikleriyle yeni Towny sunucumuz çok yakın...",
     body: `Değerli KuramaMC topluluğu,
 
