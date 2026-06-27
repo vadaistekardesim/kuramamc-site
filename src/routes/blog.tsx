@@ -1,8 +1,8 @@
 // src/routes/blog.tsx
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, useLocation } from '@tanstack/react-router';
 import { Calendar, User, ArrowRight, BookOpen } from 'lucide-react';
 
-// MANUEL HABER VERİLERİ (Yeni haber eklemek istediğinde buraya ekleyebilirsin)
+// MANUEL HABER VERİLERİ
 const MANUAL_NEWS = [
   {
     _id: "1",
@@ -20,7 +20,6 @@ Gelişmiş sistemler, optimize edilmiş ağ mimarisi ve tamamen özel olarak gel
 Açılış tarihi, özel etkinlikler ve spawner/kit detayları çok yakında Discord sunucumuz üzerinden duyurulacaktır. Takipte kalın!`,
     createdAt: "2026-06-27T13:25:00.000Z"
   }
-  // Yeni bir haber eklemek istersen virgül koyup altına kopyalaman yeterli.
 ];
 
 export const Route = createFileRoute('/blog')({
@@ -32,6 +31,15 @@ export const Route = createFileRoute('/blog')({
 
 function BlogComponent() {
   const { news } = Route.useLoaderData();
+  const location = useLocation();
+
+  // Eğer kullanıcı /blog/haberler/... gibi alt bir sayfaya girdiyse, 
+  // ana blog listesini gizle ve sadece alt sayfanın (Outlet) içeriğini göster.
+  const isDetailActive = location.pathname !== '/blog' && location.pathname !== '/blog/';
+
+  if (isDetailActive) {
+    return <Outlet />;
+  }
 
   return (
     <div className="min-h-screen bg-[#0b0c10] text-white py-12 px-4 sm:px-6 lg:px-8">
@@ -64,7 +72,7 @@ function BlogComponent() {
                   <span className="bg-orange-500/10 text-orange-500 font-bold text-xs px-2.5 py-1 rounded border border-orange-500/20 uppercase">
                     {item.tag}
                   </span>
-                  <span className="text-xs text-gray-550 flex items-center gap-1 text-gray-500">
+                  <span className="text-xs flex items-center gap-1 text-gray-500">
                     <Calendar size={12} />
                     {new Date(item.createdAt).toLocaleDateString('tr-TR')}
                   </span>
@@ -87,9 +95,9 @@ function BlogComponent() {
                     <span>{item.author}</span>
                   </div>
                   
+                  {/* Manuel yaptığımız statik rotaya yönlendirme */}
                   <Link 
-                    to="/blog/haberler/$slug"
-                    params={{ slug: item.slug }}
+                    to="/blog/haberler/towny-yakinda-aciliyor"
                     className="inline-flex items-center gap-1 text-sm font-semibold text-orange-500 group-hover:text-orange-400"
                   >
                     Detaylar 
