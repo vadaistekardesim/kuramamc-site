@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Copy, LogIn, UserPlus, Users, Activity, Megaphone, ChevronDown, MessageCircle, Server, ShoppingBag, LifeBuoy, Circle as HelpCircle, Trophy, Crown, Sparkles, Mail, Send, CircleCheck as CheckCircle2, Loader as Loader2, Signal, Wifi, Clock } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import logo from "@/assets/logo.png";
-import { submitContact, subscribeNewsletter, getServerStatus, getNewsList } from "@/lib/site.functions";
+import { submitContact, subscribeNewsletter, getServerStatus } from "@/lib/site.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,6 +33,21 @@ const faqs = [
   { q: "Hangi sürümlerden bağlanabilirim?", a: "1.20.x ve üzeri tüm Java Edition sürümlerinden bağlanabilirsiniz." },
 ];
 
+const STATIC_NEWS = [
+  {
+    _id: "news-1",
+    title: "KuramaMC Sezon 2 Başlıyor!",
+    createdAt: "2026-06-25T14:00:00.000Z",
+    content: "Uzun süredir üzerinde çalıştığımız KuramaMC Sezon 2 nihayet kapılarını açıyor! Sadece Survival modelinden hibrit Towny + Skyblock ağ yapısına geçiş yaptığımız bu yeni sezonda, tamamen optimize edilmiş gelişmiş sistemler, özel dokular ve dengeli bir ekonomi sizleri bekliyor. Topluluğumuzun geri bildirimleriyle şekillenen bu devasa güncellemeyi kaçırmamak için yerinizi şimdiden ayırtın!"
+  },
+  {
+    _id: "news-2",
+    title: "Gelişmiş Towny Altyapısı ve Yenilikler",
+    createdAt: "2026-06-20T11:30:00.000Z",
+    content: "Yeni Towny sunucumuzda kasaba kurma ve yönetme deneyimini en üst seviyeye taşıdık. Gelişmiş vergi sistemleri, dinamik harita entegrasyonu, özel kuşatma mekanizmaları ve oyuncu odaklı ticaret döngüsü aktif edildi. Kendi krallığınızı kurup sunucunun en güçlü oluşumu haline gelmek için stratejinizi belirleyin ve ittifaklarınızı kurmaya başlayın!"
+  }
+];
+
 function Home() {
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState<number | null>(0);
@@ -45,7 +60,28 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden select-none">
+      {/* Özel Giriş Efekti Stili (Tailwind'e ekstra keyframe eklemek yerine doğrudan CSS enjekte edilmiştir) */}
+      <style>{`
+        @keyframes customScaleUp {
+          0% {
+            opacity: 0;
+            transform: scale(0.6) translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+        .animate-entrance {
+          animation: customScaleUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-1 { animation-delay: 100ms; }
+        .delay-2 { animation-delay: 200ms; }
+        .delay-3 { animation-delay: 300ms; }
+        .delay-4 { animation-delay: 400ms; }
+      `}</style>
+
       <Hero copyIp={copyIp} copied={copied} />
       <StatusSection />
       <NewsSection />
@@ -66,7 +102,7 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber-500/30 via-background/60 to-background" />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.8_0.2_60/0.35),transparent_60%)]" />
 
-      <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+      <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5 opacity-0 animate-entrance">
         <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
           <div className="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5">
             <Server className="size-4 text-primary" />
@@ -103,15 +139,15 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
       </header>
 
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 pb-32 pt-20 text-center md:pt-28">
-        <img src={logo} alt="KuramaMC" width={96} height={96} className="mb-6 drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.6)]" />
-        <h1 className="font-display text-6xl font-extrabold tracking-tight md:text-8xl">
+        <img src={logo} alt="KuramaMC" width={96} height={96} className="mb-6 drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.6)] opacity-0 animate-entrance delay-1" />
+        <h1 className="font-display text-6xl font-extrabold tracking-tight md:text-8xl opacity-0 animate-entrance delay-2">
           <span className="text-gradient-amber">KuramaMC</span>
         </h1>
-        <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-          Gelişmiş altyapısı, kaliteli sistemleri ve kararlı yapısıyla benzersiz bir Minecraft deneyimi.
+        <p className="mt-6 max-w-xl text-lg text-muted-foreground opacity-0 animate-entrance delay-3">
+          Gelişmiş altyapısı, kaliteli sistemleri macro yapıları ve kararlı yapısıyla benzersiz bir Minecraft deneyimi.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3 opacity-0 animate-entrance delay-4">
           <button className="rounded-xl bg-gradient-amber px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-primary-foreground shadow-[var(--shadow-glow)] transition hover:scale-[1.02]">
             Hemen Kayıt Ol
           </button>
@@ -179,7 +215,7 @@ function StatusSection() {
   ];
 
   return (
-    <section id="status" className="mx-auto max-w-7xl px-6 py-24">
+    <section id="status" className="mx-auto max-w-7xl px-6 py-24 opacity-0 animate-entrance delay-3">
       <div className="mb-12 text-center">
         <h2 className="text-4xl font-extrabold md:text-5xl">Canlı <span className="text-gradient-amber">Sunucu Durumu</span></h2>
         <p className="mt-3 text-muted-foreground">{SERVER_IP} — 30 saniyede bir güncellenir.</p>
@@ -224,22 +260,7 @@ function StatusSection() {
 }
 
 function NewsSection() {
-  const [dbNews, setDbNews] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [expandedNews, setExpandedNews] = useState<Record<string, boolean>>({});
-  const fetchNews = useServerFn(getNewsList);
-
-  useEffect(() => {
-    fetchNews()
-      .then((data) => {
-        setDbNews(data || []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, [fetchNews]);
 
   const toggleExpand = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -249,65 +270,53 @@ function NewsSection() {
     }));
   };
 
-  const formatDate = (isoString: string | null) => {
-    if (!isoString) return "—";
+  const formatDate = (isoString: string) => {
     const d = new Date(isoString);
     return d.toLocaleDateString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
   };
 
-  // Sadece son 3 haberi listeliyoruz
-  const latestNews = dbNews.slice(0, 3);
-
   return (
-    <section id="news" className="mx-auto max-w-7xl px-6 py-24">
+    <section id="news" className="mx-auto max-w-7xl px-6 py-24 opacity-0 animate-entrance delay-4">
       <div className="mb-12 text-center">
         <h2 className="text-4xl font-extrabold md:text-5xl">Son <span className="text-gradient-amber">Haberler</span></h2>
         <p className="mt-3 text-muted-foreground">Sunucumuzdan en son gelişmeler, etkinlikler ve duyurular.</p>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="size-8 animate-spin text-primary" />
-        </div>
-      ) : latestNews.length === 0 ? (
-        <p className="text-center text-sm text-muted-foreground">Henüz eklenmiş bir haber bulunmuyor.</p>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-3 items-start">
-          {latestNews.map((n) => {
-            const isExpanded = !!expandedNews[n._id];
-            return (
-              <article key={n._id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card p-6 backdrop-blur transition hover:border-primary/40">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-amber opacity-60" />
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-semibold text-primary">
-                    <Megaphone className="size-3" /> Duyuru
-                  </span>
-                  <span className="text-xs text-muted-foreground">{formatDate(n.createdAt)}</span>
-                </div>
-                <h3 className="text-xl font-bold line-clamp-2">{n.title}</h3>
-                
-                <p className={`mt-2 text-sm text-muted-foreground transition-all duration-200 ${isExpanded ? "" : "line-clamp-3"}`}>
-                  {n.content}
-                </p>
-                
-                <button 
-                  onClick={(e) => toggleExpand(n._id, e)} 
-                  className="mt-5 inline-flex text-sm font-semibold text-primary hover:underline bg-transparent border-none cursor-pointer p-0"
-                >
-                  {isExpanded ? "← Kapat" : "Detaylar →"}
-                </button>
-              </article>
-            );
-          })}
-        </div>
-      )}
+      <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto items-start">
+        {STATIC_NEWS.map((n) => {
+          const isExpanded = !!expandedNews[n._id];
+          return (
+            <article key={n._id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card p-6 backdrop-blur transition hover:border-primary/40">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-amber opacity-60" />
+              <div className="mb-4 flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-semibold text-primary">
+                  <Megaphone className="size-3" /> Duyuru
+                </span>
+                <span className="text-xs text-muted-foreground">{formatDate(n.createdAt)}</span>
+              </div>
+              <h3 className="text-xl font-bold line-clamp-2">{n.title}</h3>
+              
+              <p className={`mt-2 text-sm text-muted-foreground transition-all duration-200 ${isExpanded ? "" : "line-clamp-3"}`}>
+                {n.content}
+              </p>
+              
+              <button 
+                onClick={(e) => toggleExpand(n._id, e)} 
+                className="mt-5 inline-flex text-sm font-semibold text-primary hover:underline bg-transparent border-none cursor-pointer p-0"
+              >
+                {isExpanded ? "← Kapat" : "Detaylar →"}
+              </button>
+            </article>
+          );
+        })}
+      </div>
     </section>
   );
 }
 
 function LeaderboardSection() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24">
+    <section className="mx-auto max-w-7xl px-6 py-24 opacity-0 animate-entrance delay-4">
       <div className="mb-12 text-center">
         <h2 className="text-4xl font-extrabold md:text-5xl">Sıralama & <span className="text-gradient-amber">Aktivite</span></h2>
         <p className="mt-3 text-muted-foreground">Sunucumuzun en aktif ve destekçi oyuncularını buradan takip edebilirsiniz.</p>
@@ -348,6 +357,14 @@ function LeaderCard({ icon, title, rows, label }: { icon: React.ReactNode; title
         {rows.map((r, i) => (
           <li key={i} className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
             <span className={`flex size-7 items-center justify-center rounded-md text-xs font-bold ${i === 0 ? "bg-gradient-amber text-primary-foreground" : "bg-white/10 text-muted-foreground"}`}>#{i + 1}</span>
+            <img 
+              src={`https://minotar.net/avatar/${r.name}/32.png`} 
+              alt="" 
+              className="size-8 rounded-md bg-white/10"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://minotar.net/avatar/MHF_Steve/32.png";
+              }}
+            />
             <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-semibold">{r.name}</div>
               <div className="text-xs text-muted-foreground">{label}</div>
@@ -400,7 +417,7 @@ function ContactSection() {
   };
 
   return (
-    <section id="contact" className="mx-auto max-w-3xl px-6 py-24">
+    <section id="contact" className="mx-auto max-w-3xl px-6 py-24 opacity-0 animate-entrance delay-4">
       <div className="mb-10 text-center">
         <h2 className="text-4xl font-extrabold md:text-5xl">Bize <span className="text-gradient-amber">Ulaşın</span></h2>
         <p className="mt-3 text-muted-foreground">Sorularınız, önerileriniz veya iş birliği için doldurun. En kısa sürede dönüş yaparız.</p>
@@ -479,7 +496,7 @@ function NewsletterSection() {
   };
 
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden opacity-0 animate-entrance delay-4">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,oklch(0.7_0.2_50/0.2),transparent_60%)]" />
       <div className="mx-auto max-w-3xl px-6 py-20 text-center">
         <Mail className="mx-auto mb-3 size-8 text-primary" />
@@ -516,7 +533,7 @@ function NewsletterSection() {
 
 function FAQSection({ faqs, open, setOpen }: { faqs: { q: string; a: string }[]; open: number | null; setOpen: (n: number | null) => void }) {
   return (
-    <section id="faq" className="mx-auto max-w-4xl px-6 py-24">
+    <section id="faq" className="mx-auto max-w-4xl px-6 py-24 opacity-0 animate-entrance delay-4">
       <div className="mb-12 text-center">
         <h2 className="text-4xl font-extrabold md:text-5xl">Sıkça Sorulan <span className="text-gradient-amber">Sorular</span></h2>
         <p className="mt-3 text-muted-foreground">Sunucumuz hakkında en çok sorulan sorular.</p>
@@ -545,7 +562,7 @@ function FAQSection({ faqs, open, setOpen }: { faqs: { q: string; a: string }[];
 
 function CTASection({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden opacity-0 animate-entrance delay-4">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,oklch(0.7_0.2_50/0.35),transparent_60%)]" />
       <div className="mx-auto max-w-4xl px-6 py-28 text-center">
         <Sparkles className="mx-auto mb-4 size-8 text-primary" />
@@ -564,7 +581,7 @@ function CTASection({ copyIp, copied }: { copyIp: () => void; copied: boolean })
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10 py-10 text-center text-sm text-muted-foreground">
+    <footer className="border-t border-white/10 py-10 text-center text-sm text-muted-foreground opacity-0 animate-entrance delay-4">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6">
         <img src={logo} alt="" width={36} height={36} loading="lazy" />
         <div>© {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.</div>
