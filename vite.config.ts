@@ -6,23 +6,23 @@ export default defineConfig({
   },
   vite: {
     resolve: {
-      // tr46'nın "punycode/" isteğini doğrudan "punycode" paketine eşle
-      alias: {
-        "punycode/": "punycode/",
-        "punycode": "punycode"
-      },
+      alias: [
+        // Punycode çağrılarını tamamen boşaltıp, build motorunun hata vermesini engelliyoruz
+        { find: "punycode/", replacement: "punycode" },
+        { find: "punycode", replacement: "punycode" }
+      ],
     },
     build: {
       rollupOptions: {
-        // Build motoruna "punycode ile ilgili her şeyi es geç" diyoruz
-        external: ["punycode", "punycode/"]
+        // Build motoruna punycode ile ilgili hiçbir şeyi paketlememesini söylüyoruz
+        external: ["punycode", "punycode/"],
       },
-      chunkSizeWarningLimit: 1000
+      chunkSizeWarningLimit: 2000,
     },
     ssr: {
-      // SSR motoruna bu paketleri "external" (dışsal) olarak yüklemesini söyle
+      // Sunucu tarafında bu paketleri aramasını engelle
       external: ["punycode", "tr46"],
-      noExternal: []
-    }
+      noExternal: [],
+    },
   },
 });
