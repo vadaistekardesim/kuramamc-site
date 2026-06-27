@@ -1,4 +1,5 @@
-import { createServerFn } from '@tanstack/start';
+// src/lib/db.ts
+import { createServerFn } from '@tanstack/react-start'; // Doğru paket yolu
 import { MongoClient } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
