@@ -1,19 +1,25 @@
 import { createServerFn } from '@tanstack/start';
 import { MongoClient } from 'mongodb';
 
-// MongoDB bağlantı dizesini env üzerinden almalısın
+// MongoDB bağlantı dizesi
 const client = new MongoClient(process.env.MONGODB_URI!);
 
+// Hata veren fonksiyonu dışa aktar (export et)
+export const connectToDatabase = async () => {
+  if (!client.topology || !client.topology.isConnected()) {
+    await client.connect();
+  }
+  return client.db('kuramamc');
+};
+
 export const getNews = createServerFn({ method: 'GET' }).handler(async () => {
-  await client.connect();
-  const db = client.db('kuramamc'); // Veritabanı adın
+  const db = await connectToDatabase();
   return await db.collection('news').find().toArray();
 });
 
 export const getNewsBySlug = createServerFn({ method: 'GET' })
   .validator((slug: string) => slug)
   .handler(async ({ data: slug }) => {
-    await client.connect();
-    const db = client.db('kuramamc');
+    const db = await connectToDatabase();
     return await db.collection('news').findOne({ slug });
   });
