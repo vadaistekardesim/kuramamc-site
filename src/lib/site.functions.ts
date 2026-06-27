@@ -3,7 +3,7 @@ import { getRequestHeader } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { createHash } from "crypto";
 import { connectToDatabase } from "./db";
-import { News } from "@/models/News";
+import { News } from "@/Models/News";
 
 // ==========================================
 // 1. MEVCUT SEKTÖRLER (İletişim, Bülten, Durum)
