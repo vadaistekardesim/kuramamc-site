@@ -130,18 +130,21 @@ export const getNewsList = createServerFn({ method: "GET" })
     }
   });
 
-// Sadece adresteki slug'a göre tek bir haberi çeken fonksiyon (GET)
+// Sadece adresteki slug'a göre tek bir haberi çeken fonksiyon (GET) - Optimizasyonlu
 export const getNewsBySlug = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => slugSchema.parse(d))
   .handler(async ({ data }) => {
     try {
       await connectToDatabase();
-      const item = await News.findOne({ slug: data.slug }).lean();
+      
+      // Tek sorguda hem veriyi çekiyor, hem görüntülenmeyi artırıyor, hem de güncel veriyi döndürüyor
+      const item = await News.findOneAndUpdate(
+        { slug: data.slug },
+        { $inc: { views: 1 } },
+        { new: true }
+      ).lean();
       
       if (!item) return null;
-
-      // Habere her tıklanıldığında görüntülenme sayısını 1 artırıyoruz
-      await News.updateOne({ slug: data.slug }, { $inc: { views: 1 } });
 
       return {
         ...item,
