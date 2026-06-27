@@ -20,26 +20,13 @@ export const Route = createFileRoute("/")({
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
 
-const weekly = [
-  { name: "ruyagibi", amount: "9,175.00 ₺" },
-  { name: "xkios", amount: "900.00 ₺" },
-  { name: "leeeeth", amount: "500.00 ₺" },
-  { name: "cliesthebest", amount: "500.00 ₺" },
-  { name: "zeynoopsi", amount: "350.00 ₺" },
-];
+// Genel destekçiler güncellendi
 const overall = [
-  { name: "ruyagibi", amount: "9,225.00 ₺" },
-  { name: "cliesthebest", amount: "1,350.00 ₺" },
-  { name: "xkios", amount: "900.00 ₺" },
-  { name: "leeeeth", amount: "500.00 ₺" },
-  { name: "zeynoopsi", amount: "350.00 ₺" },
-];
-const purchases = [
-  { name: "fivecanine", item: "2.500 KRİSTAL", ago: "8 saat önce" },
-  { name: "cliesthebest", item: "500 KRİSTAL", ago: "3 gün önce" },
-  { name: "cliesthebest", item: "5.000 KRİSTAL", ago: "3 gün önce" },
-  { name: "cliesthebest", item: "10.000 KRİSTAL", ago: "3 gün önce" },
-  { name: "ruyagibi", item: "25.000 KRİSTAL", ago: "5 gün önce" },
+  { name: "NF4EVER", amount: "625.00 ₺" },
+  { name: "Rixon323", amount: "400.00 ₺" },
+  { name: "Admin", amount: "1.00 ₺" },
+  { name: "Admin", amount: "1.00 ₺" },
+  { name: "Admin", amount: "1.00 ₺" },
 ];
 
 const faqs = [
@@ -140,7 +127,7 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <button className="rounded-xl bg-gradient-amber px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-primary-foreground shadow-[var(--shadow-glow)] transition hover:scale-[1.02]">
-            Hemen Kayıt Ol
+            H Hemen Kayıt Ol
           </button>
           <button onClick={copyIp} className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/40 px-7 py-3.5 text-sm font-bold uppercase tracking-wider backdrop-blur transition hover:bg-white/5">
             <Copy className="size-4" /> {copied ? "Kopyalandı!" : SERVER_IP}
@@ -317,25 +304,27 @@ function LeaderboardSection() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <LeaderCard icon={<Trophy className="size-5" />} title="Haftalık Destekçiler" rows={weekly} label="Toplam Destek" />
+        {/* Haftalık Destekçiler - Kaldırıldı */}
+        <div className="rounded-2xl border border-white/10 bg-card p-6 backdrop-blur flex flex-col justify-between">
+          <div className="mb-5 flex items-center gap-2 font-semibold">
+            <Trophy className="size-5 text-primary" /> Haftalık Destekçiler
+          </div>
+          <div className="flex flex-1 items-center justify-center py-12 text-sm text-muted-foreground italic">
+            Bulunamadı...
+          </div>
+        </div>
+
+        {/* Genel Destekçiler - Güncellendi */}
         <LeaderCard icon={<Crown className="size-5" />} title="Genel Destekçiler" rows={overall} label="Efsane Destekçi" />
 
-        <div className="rounded-2xl border border-white/10 bg-card p-6 backdrop-blur">
+        {/* Son Mağaza İşlemleri - Kaldırıldı */}
+        <div className="rounded-2xl border border-white/10 bg-card p-6 backdrop-blur flex flex-col justify-between">
           <div className="mb-5 flex items-center gap-2 font-semibold">
             <ShoppingBag className="size-5 text-primary" /> Son Mağaza İşlemleri
           </div>
-          <ul className="space-y-3">
-            {purchases.map((p, i) => (
-              <li key={i} className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
-                <Avatar name={p.name} />
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-semibold">{p.name}</div>
-                  <div className="text-xs text-primary">{p.item}</div>
-                </div>
-                <div className="text-xs text-muted-foreground">{p.ago}</div>
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-1 items-center justify-center py-12 text-sm text-muted-foreground italic">
+            Bulunamadı...
+          </div>
         </div>
       </div>
     </section>
