@@ -1,25 +1,19 @@
-import mongoose from "mongoose";
+import { createServerFn } from '@tanstack/start';
+import { MongoClient } from 'mongodb';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// MongoDB bağlantı dizesini env üzerinden almalısın
+const client = new MongoClient(process.env.MONGODB_URI!);
 
-if (!MONGODB_URI) {
-  throw new Error("Lütfen .env dosyasında MONGODB_URI tanımlayın.");
-}
+export const getNews = createServerFn({ method: 'GET' }).handler(async () => {
+  await client.connect();
+  const db = client.db('kuramamc'); // Veritabanı adın
+  return await db.collection('news').find().toArray();
+});
 
-let cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
-}
-
-export async function connectToDatabase() {
-  if (cached.conn) return cached.conn;
-
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI!).then((mongooseInstance) => {
-      return mongooseInstance;
-    });
-  }
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
+export const getNewsBySlug = createServerFn({ method: 'GET' })
+  .validator((slug: string) => slug)
+  .handler(async ({ data: slug }) => {
+    await client.connect();
+    const db = client.db('kuramamc');
+    return await db.collection('news').findOne({ slug });
+  });
