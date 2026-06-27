@@ -9,7 +9,6 @@ import { getServerStatus } from "@/lib/site.functions";
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
 
-// BAŞLIKLARI KISALTILMIŞ GELİŞMİŞ TOWNY & SKYBLOCK HABERLERİ
 const MANUAL_NEWS = [
   {
     _id: "1",
@@ -51,7 +50,7 @@ Skyblock deneyimini gökyüzünün ötesine taşımaya hazır mısınız? Klasik
 
 • Gelişmiş Ada Yönetimi: Yepyeni yükseltme (upgrade) menüleri, dinamik ada sınırları ve takım görevleri ile adanızı devasa bir imparatorluğa dönüştürün.
 • Otomasyon ve Çiftçilik Devrimi: Özel minyonlar, gelişmiş tarım mekanikleri ve adanıza özel üretim bantları sayesinde pasif gelirinizi optimize edin.
-• Büyük Sezon Ödülleri: Rekabeti en üst düzeye çıkaracak, her hafta güncellenen ada sıralaması (IS-TOP) ödülleri ve özel kozmetikler.
+• Büyük Sezon Ödülleri: Rekabeti en üst düzeni çıkaracak, her hafta güncellenen ada sıralaması (IS-TOP) ödülleri ve özel kozmetikler.
 • Gelişmiş Özel Ekonomi: Enflasyonu önleyen, tamamen optimize edilmiş ve uzun soluklu bir Skyblock ticaret döngüsü.
 
 Gökyüzünün hakimi olmak ve adanızı en tepeye taşımak için hazırlıklara başlayın. Resmi açılış saati ve yeni dünyaya özel avantajlı ön satış detayları çok yakında Discord kanalımızda yayınlanacaktır!
@@ -76,59 +75,71 @@ function BlogComponent() {
 
   const isDetailActive = location.pathname.includes('/blog/haberler/');
 
+  // ORTAK HEADER & HERO BİLEŞENİ
+  const renderHeader = (titleText: string, descriptionText: string) => (
+    <section className="relative isolate overflow-hidden pb-12">
+      <img src={heroBg} alt="" width={1920} height={1280} className="absolute inset-0 -z-10 h-full w-full object-cover" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber-500/20 via-background/80 to-background" />
+      
+      {/* Navbar */}
+      <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+        <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
+          <div className="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5">
+            <Server className="size-4 text-primary" />
+            <div className="text-xs leading-tight">
+              <div className="font-semibold">{SERVER_IP}</div>
+              <LiveDot />
+            </div>
+          </div>
+          <a href="#" className="flex items-center gap-2 rounded-full bg-indigo-500/20 px-3 py-2 text-xs font-semibold text-indigo-200 hover:bg-indigo-500/30">
+            <MessageCircle className="size-4" /> Discord
+          </a>
+        </div>
+
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
+          <Link to="/" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Ana Sayfa</Link>
+          <Link to="/launcher" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Launcher</Link>
+          <Link to="/blog" className="rounded-full px-4 py-2 text-sm text-foreground transition">Haberler</Link>
+          <a href="#" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Mağaza</a>
+          <a href="/#contact" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Destek</a>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <button className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm font-medium backdrop-blur hover:bg-white/5 sm:flex">
+            <LogIn className="size-4" /> Giriş Yap
+          </button>
+          <button className="flex items-center gap-2 rounded-full bg-gradient-amber px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)]">
+            <UserPlus className="size-4" /> Kayıt Ol
+          </button>
+        </div>
+      </header>
+
+      {/* Başlık ve Logo Alanı */}
+      <div className="relative z-10 mx-auto flex flex-col items-center pt-8 text-center px-4">
+        <img src={logo} alt="KuramaMC" width={96} height={96} className="drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.4)] mb-6" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm font-medium mb-4 border border-orange-500/20 backdrop-blur-sm">
+          <BookOpen size={16} />
+          <span>KuramaMC Günlükleri</span>
+        </div>
+        <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4 font-display">
+          {titleText}
+        </h1>
+        <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
+          {descriptionText}
+        </p>
+      </div>
+    </section>
+  );
+
   if (isDetailActive) {
     const currentSlug = location.pathname.split('/').pop();
     const activeNews = news.find(n => n.slug === currentSlug) || news[0];
 
     return (
       <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-        
-        {/* Üst Alan: Header ve Arka Plan */}
-        <section className="relative isolate overflow-hidden pb-12">
-          <img src={heroBg} alt="" width={1920} height={1280} className="absolute inset-0 -z-10 h-full w-full object-cover" />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber-500/20 via-background/80 to-background" />
-          
-          {/* Navbar */}
-          <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-            <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
-              <div className="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5">
-                <Server className="size-4 text-primary" />
-                <div className="text-xs leading-tight">
-                  <div className="font-semibold">{SERVER_IP}</div>
-                  <LiveDot />
-                </div>
-              </div>
-              <a href="#" className="flex items-center gap-2 rounded-full bg-indigo-500/20 px-3 py-2 text-xs font-semibold text-indigo-200 hover:bg-indigo-500/30">
-                <MessageCircle className="size-4" /> Discord
-              </a>
-            </div>
+        {renderHeader("Haberler & Güncellemeler", "Sunucumuzla ilgili en son gelişmeleri buradan takip edebilirsiniz.")}
 
-            <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
-              <Link to="/" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Ana Sayfa</Link>
-              <a href="/#status" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Launcher</a>
-              <Link to="/blog" className="rounded-full px-4 py-2 text-sm text-foreground transition">Haberler</Link>
-              <a href="#" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Mağaza</a>
-              <a href="/#contact" className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition">Destek</a>
-            </nav>
-
-            <div className="flex items-center gap-2">
-              <button className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm font-medium backdrop-blur hover:bg-white/5 sm:flex">
-                <LogIn className="size-4" /> Giriş Yap
-              </button>
-              <button className="flex items-center gap-2 rounded-full bg-gradient-amber px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)]">
-                <UserPlus className="size-4" /> Kayıt Ol
-              </button>
-            </div>
-          </header>
-
-          <div className="relative z-10 mx-auto flex flex-col items-center pt-8 text-center">
-            <img src={logo} alt="KuramaMC" width={96} height={96} className="drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.4)]" />
-          </div>
-        </section>
-
-        {/* İçerik Alanı */}
-        <main className="mx-auto max-w-4xl px-6 pb-24">
-          
+        <main className="mx-auto max-w-4xl px-6 pb-24 -mt-4 relative z-20">
           {/* Breadcrumb */}
           <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-card/60 px-4 py-2.5 text-xs font-medium text-muted-foreground backdrop-blur">
             <Link to="/" className="flex items-center gap-1 hover:text-foreground transition">
@@ -142,15 +153,12 @@ function BlogComponent() {
             <span className="text-primary font-semibold truncate max-w-[240px]">{activeNews.title}</span>
           </div>
 
-          {/* Haber Detay Kutusu */}
           <article className="overflow-hidden rounded-3xl border border-white/10 bg-card/70 backdrop-blur-md shadow-2xl">
             <div className="p-6 sm:p-8">
-              
               <h1 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl text-foreground mb-6">
                 {activeNews.title}
               </h1>
 
-              {/* Bilgi Çubuğu */}
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
                 <div className="flex items-center gap-3">
                   <img
@@ -180,18 +188,15 @@ function BlogComponent() {
                 </div>
               </div>
 
-              {/* Haber Detay İçeriği */}
               <div className="prose prose-invert max-w-none text-muted-foreground text-sm sm:text-base leading-relaxed whitespace-pre-line">
                 {activeNews.body}
               </div>
-
             </div>
           </article>
 
           <div className="mt-6 rounded-2xl bg-gradient-amber/10 border border-amber-500/20 p-4 text-center text-xs font-bold uppercase tracking-wider text-amber-300 backdrop-blur-sm">
             Yorumlar Kapalı
           </div>
-
         </main>
 
         <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground">
@@ -201,30 +206,17 @@ function BlogComponent() {
     );
   }
 
-  // --- ANA LİSTELEME EKRANI ---
+  // --- ANA LİSTELEME EKRANI (Üst Kısım Entegre Edildi) ---
   return (
-    <div className="min-h-screen bg-[#0b0c10] text-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm font-medium mb-4 border border-orange-500/20">
-            <BookOpen size={16} />
-            <span>KuramaMC Günlükleri</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
-            Haberler & Güncellemeler
-          </h1>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Sıfırdan açılacak gelişmiş Towny ve Skyblock dünyalarımızın en güncel gelişmelerini buradan takip edebilirsiniz.
-          </p>
-        </div>
-
-        {/* Haber Kartları Grid (2 Kart Yan Yana) */}
+    <div className="min-h-screen bg-background text-white">
+      {renderHeader("Haberler & Güncellemeler", "Sıfırdan açılacak gelişmiş Towny ve Skyblock dünyalarımızın en güncel gelişmelerini buradan takip edebilirsiniz.")}
+      
+      <div className="max-w-6xl mx-auto px-4 pb-24 pt-12 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {news.map((item) => (
             <article 
               key={item._id} 
-              className="group flex flex-col bg-[#151a23] rounded-xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
+              className="group flex flex-col bg-[#151a23]/80 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
             >
               <div className="p-6 flex flex-col flex-grow">
                 <div className="flex items-center justify-between mb-3">
@@ -263,8 +255,11 @@ function BlogComponent() {
             </article>
           ))}
         </div>
-
       </div>
+
+      <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.
+      </footer>
     </div>
   );
 }
