@@ -9,16 +9,16 @@ import { submitContact, subscribeNewsletter, getServerStatus } from "@/lib/site.
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Raines Network — Minecraft Sunucusu" },
-      { name: "description", content: "Raines Network: Farklı bir minecraft deneyimi sunmak için buradayız. IP: oyna.rainesmc.net.tr" },
-      { property: "og:title", content: "Raines Network" },
-      { property: "og:description", content: "Farklı bir minecraft deneyimi. IP: oyna.rainesmc.net.tr" },
+      { title: "KuramaMC — Minecraft Sunucusu" },
+      { name: "description", content: "KuramaMC: cherry blossom temalı, kaliteli ve kararlı bir Minecraft deneyimi. IP: oyna.kuramamc.com.tr" },
+      { property: "og:title", content: "KuramaMC" },
+      { property: "og:description", content: "Farklı bir Minecraft deneyimi. IP: oyna.kuramamc.com.tr" },
     ],
   }),
   component: Home,
 });
 
-const SERVER_IP = "oyna.rainesmc.net.tr";
+const SERVER_IP = "oyna.kuramamc.com.tr";
 
 const news = [
   { tag: "Bildiri", date: "12 Haz, 18:00", title: "Yeni VIPLER", body: "Yeni eklenen VIP paketleriyle çok daha fazla ayrıcalığa sahip olabilirsiniz." },
@@ -114,7 +114,7 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
         </div>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
-          {[{l:"Ana Sayfa",h:"/"},{l:"Durum",h:"#status"},{l:"Bültenler",h:"#news"},{l:"Mağaza",h:"/store"},{l:"Yardım",h:"/help"}].map((x, i) => (
+          {[{l:"Ana Sayfa",h:"#"},{l:"Durum",h:"#status"},{l:"Bültenler",h:"#news"},{l:"İletişim",h:"#contact"},{l:"SSS",h:"#faq"}].map((x, i) => (
             <a key={x.l} href={x.h} className={`rounded-full px-4 py-2 text-sm transition ${i === 0 ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground"}`}>{x.l}</a>
           ))}
         </nav>
@@ -130,12 +130,12 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
       </header>
 
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 pb-32 pt-20 text-center md:pt-28">
-        <img src={logo} alt="Raines Network" width={96} height={96} className="mb-6 drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.6)]" />
+        <img src={logo} alt="KuramaMC" width={96} height={96} className="mb-6 drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.6)]" />
         <h1 className="font-display text-6xl font-extrabold tracking-tight md:text-8xl">
-          <span className="text-gradient-amber">Raines Network</span>
+          <span className="text-gradient-amber">KuramaMC</span>
         </h1>
         <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-          Farklı bir minecraft deneyimi sunmak için buradayız.
+          Cherry blossom temalı, kaliteli ve kararlı bir Minecraft deneyimi.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -543,7 +543,7 @@ function Footer() {
     <footer className="border-t border-white/10 py-10 text-center text-sm text-muted-foreground">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6">
         <img src={logo} alt="" width={36} height={36} loading="lazy" />
-        <div>© {new Date().getFullYear()} Raines Network — Tüm hakları saklıdır.</div>
+        <div>© {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.</div>
         <div className="flex gap-4 text-xs">
           <a href="#" className="hover:text-foreground">Gizlilik</a>
           <a href="#" className="hover:text-foreground">Şartlar</a>
