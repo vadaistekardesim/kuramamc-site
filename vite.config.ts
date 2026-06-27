@@ -1,3 +1,4 @@
+// vite.config.ts
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
@@ -10,15 +11,13 @@ export default defineConfig({
     },
     build: {
       rollupOptions: {
-        // Build sırasında bu paketleri dışarıdan bağımsız bırakıyoruz,
-        // böylece build motoru bunları kendi içine kopyalamaya çalışıp hata vermiyor.
-        external: ['mongodb'], 
+        // 'mongodb' paketini external bırakıyoruz
+        external: ['mongodb'],
       },
     },
     ssr: {
-      // TanStack paketlerini bundle'a dahil ediyoruz ki runtime'da eksik kalmasınlar,
-      // MongoDB'yi ise external bırakıyoruz çünkü native node modülü olarak yüklenmeli.
-      noExternal: ['@tanstack/react-start', '@tanstack/start'],
+      // TanStack modüllerini SSR için içeriye dahil ediyoruz
+      noExternal: ['@tanstack/react-start'],
     },
   },
 });
