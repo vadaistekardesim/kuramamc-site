@@ -1,32 +1,30 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { createServerFn } from '@tanstack/react-start';
-import { connectToDatabase } from '../lib/db';
-import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+// src/routes/blog.haberler._slug.tsx
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { Calendar, User, ArrowLeft } from 'lucide-react';
 
-// Slug değerine göre MongoDB'den tekil veri çeken fonksiyon
-const fetchNewsBySlug = createServerFn({ method: 'GET' })
-  .validator((slug: string) => slug)
-  .handler(async ({ data: slug }) => {
-    try {
-      const db = await connectToDatabase();
-      const article = await db.collection('news').findOne({ slug });
-      
-      if (!article) return null;
+// Yukarıdaki verilerin aynısı (Detay eşleşmesi için)
+const MANUAL_NEWS = [
+  {
+    _id: "1",
+    slug: "towny-yakinda-aciliyor",
+    tag: "DUYURU",
+    title: "KuramaMC Towny Sunucusu Yakında Açılıyor!",
+    author: "Shiva",
+    excerpt: "Gelişmiş teması ve eşsiz mekanikleriyle yeni Towny sunucumuz çok yakın...",
+    body: `Değerli KuramaMC topluluğu,
 
-      return {
-        ...article,
-        _id: article._id.toString(),
-      };
-    } catch (error) {
-      console.error("Haber detayı çekilirken hata oluştu:", error);
-      return null;
-    }
-  });
+Büyük bir heyecanla beklenen Towny sunucumuz çok yakında sizlerle buluşuyor! 
+
+Gelişmiş sistemler, optimize edilmiş ağ mimarisi ve tamamen özel olarak geliştirilen mekaniklerle sıradan bir oyun deneyiminin çok ötesine geçiyoruz. KuramaMC kalitesini Towny haritasında iliklerinize kadar hissedeceksiniz.
+
+Açılış tarihi, özel etkinlikler ve spawner/kit detayları çok yakında Discord sunucumuz üzerinden duyurulacaktır. Takipte kalın!`,
+    createdAt: "2026-06-27T13:25:00.000Z"
+  }
+];
 
 export const Route = createFileRoute('/blog/haberler/$slug')({
   loader: async ({ params }) => {
-    const article = await fetchNewsBySlug({ data: params.slug });
+    const article = MANUAL_NEWS.find(item => item.slug === params.slug);
     if (!article) {
       throw new Error('Haber bulunamadı');
     }
@@ -42,7 +40,6 @@ function ArticleComponent() {
     <div className="min-h-screen bg-[#0b0c10] text-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         
-        {/* Geri Dön Butonu */}
         <Link 
           to="/blog" 
           className="inline-flex items-center gap-2 text-gray-400 hover:text-orange-500 transition-colors mb-8 text-sm"
@@ -51,37 +48,30 @@ function ArticleComponent() {
           Haberlere Geri Dön
         </Link>
 
-        {/* Makale Kartı */}
         <article className="bg-[#151a23] rounded-2xl p-6 md:p-10 border border-gray-800 shadow-2xl">
           
-          {/* Meta Bilgileri */}
           <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400 mb-6">
             <span className="bg-orange-500/10 text-orange-500 font-bold px-2.5 py-1 rounded border border-orange-500/20 uppercase">
-              {article.tag || "DUYURU"}
+              {article.tag}
             </span>
             <div className="flex items-center gap-1">
               <Calendar size={14} className="text-orange-500" />
-              <span>{article.createdAt ? new Date(article.createdAt).toLocaleDateString('tr-TR') : "27.06.2026"}</span>
+              <span>{new Date(article.createdAt).toLocaleDateString('tr-TR')}</span>
             </div>
             <div className="flex items-center gap-1">
               <User size={14} className="text-orange-500" />
-              <span>{article.author || "Shiva"}</span>
+              <span>{article.author}</span>
             </div>
           </div>
 
-          {/* Başlık */}
           <h1 className="text-2xl md:text-4xl font-extrabold text-white mb-6 leading-tight">
             {article.title}
           </h1>
 
-          {/* Özet (Varsa) */}
-          {article.excerpt && (
-            <p className="text-gray-400 italic text-lg border-l-4 border-orange-500 pl-4 mb-8">
-              {article.excerpt}
-            </p>
-          )}
+          <p className="text-gray-400 italic text-lg border-l-4 border-orange-500 pl-4 mb-8">
+            {article.excerpt}
+          </p>
 
-          {/* İçerik Gövdesi (body) */}
           <div className="text-gray-300 text-base md:text-lg leading-relaxed whitespace-pre-line space-y-4">
             {article.body}
           </div>
