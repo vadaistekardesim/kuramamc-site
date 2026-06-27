@@ -6,23 +6,17 @@ export default defineConfig({
   },
   vite: {
     resolve: {
-      alias: [
-        // Punycode çağrılarını tamamen boşaltıp, build motorunun hata vermesini engelliyoruz
-        { find: "punycode/", replacement: "punycode" },
-        { find: "punycode", replacement: "punycode" }
-      ],
+      tsconfigPaths: true, // Vite'ın native desteğini aktif ettik
     },
     build: {
       rollupOptions: {
-        // Build motoruna punycode ile ilgili hiçbir şeyi paketlememesini söylüyoruz
-        external: ["punycode", "punycode/"],
+        // Hatalı build'leri engellemek için paketleri dışarıdan yönetiyoruz
+        external: ['@tanstack/react-start', '@tanstack/start', 'mongodb'],
       },
-      chunkSizeWarningLimit: 2000,
     },
     ssr: {
-      // Sunucu tarafında bu paketleri aramasını engelle
-      external: ["punycode", "tr46"],
-      noExternal: [],
+      // Server-side paket çözümleme hatalarını önler
+      noExternal: ['@tanstack/react-start'],
     },
   },
 });
