@@ -1,16 +1,14 @@
-// src/lib/db.ts
-// IMPORT yolunu şu şekilde değiştir:
-import { createServerFn } from '@tanstack/start/server'; 
+import { createServerFn } from '@tanstack/start';
 import { MongoClient } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 
-export const connectToDatabase = async () => {
+export async function connectToDatabase() {
   if (!client.topology || !client.topology.isConnected()) {
     await client.connect();
   }
   return client.db('kuramamc');
-};
+}
 
 export const getNews = createServerFn({ method: 'GET' }).handler(async () => {
   const db = await connectToDatabase();
