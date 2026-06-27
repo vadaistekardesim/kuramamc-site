@@ -113,8 +113,15 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
           </a>
         </div>
 
+        {/* GÜNCELLENENÜST MENÜ ALANI */}
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
-          {[{l:"Ana Sayfa",h:"#"},{l:"Durum",h:"#status"},{l:"Bültenler",h:"#news"},{l:"İletişim",h:"#contact"},{l:"SSS",h:"#faq"}].map((x, i) => (
+          {[
+            { l: "Ana Sayfa", h: "#" },
+            { l: "Launcher", h: "#status" },
+            { l: "Haberler", h: "#news" },
+            { l: "Mağaza", h: "#" },
+            { l: "Destek", h: "#contact" }
+          ].map((x, i) => (
             <a key={x.l} href={x.h} className={`rounded-full px-4 py-2 text-sm transition ${i === 0 ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground"}`}>{x.l}</a>
           ))}
         </nav>
