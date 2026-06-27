@@ -6,7 +6,6 @@ if (!MONGODB_URI) {
   throw new Error("Lütfen .env dosyasında MONGODB_URI tanımlayın.");
 }
 
-// Global bağlantı durumunu tutuyoruz (sunucu tarafında sürekli yeniden bağlanmamak için)
 let cached = (global as any).mongoose;
 
 if (!cached) {
@@ -17,8 +16,8 @@ export async function connectToDatabase() {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI!).then((mongoose) => {
-      return mongoose;
+    cached.promise = mongoose.connect(MONGODB_URI!).then((mongooseInstance) => {
+      return mongooseInstance;
     });
   }
   cached.conn = await cached.promise;
