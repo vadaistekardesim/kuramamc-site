@@ -20,7 +20,6 @@ export const Route = createFileRoute("/")({
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
 
-// Genel destekçiler güncellendi
 const overall = [
   { name: "NF4EVER", amount: "625.00 ₺" },
   { name: "Rixon323", amount: "400.00 ₺" },
@@ -33,17 +32,6 @@ const faqs = [
   { q: "Yetkili alımları var mı?", a: "Yetkili alımları olduğunda Discord sunucumuz üzerinden duyuru yapılmaktadır." },
   { q: "Hangi sürümlerden bağlanabilirim?", a: "1.20.x ve üzeri tüm Java Edition sürümlerinden bağlanabilirsiniz." },
 ];
-
-function Avatar({ name, size = 38 }: { name: string; size?: number }) {
-  return (
-    <img
-      src={`https://minotar.net/avatar/${name}/${size}`}
-      alt={name}
-      width={size} height={size} loading="lazy"
-      className="rounded-md shadow-md ring-1 ring-white/10"
-    />
-  );
-}
 
 function Home() {
   const [copied, setCopied] = useState(false);
@@ -125,7 +113,7 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <button className="rounded-xl bg-gradient-amber px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-primary-foreground shadow-[var(--shadow-glow)] transition hover:scale-[1.02]">
-            H Hemen Kayıt Ol
+            Hemen Kayıt Ol
           </button>
           <button onClick={copyIp} className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/40 px-7 py-3.5 text-sm font-bold uppercase tracking-wider backdrop-blur transition hover:bg-white/5">
             <Copy className="size-4" /> {copied ? "Kopyalandı!" : SERVER_IP}
@@ -238,6 +226,7 @@ function StatusSection() {
 function NewsSection() {
   const [dbNews, setDbNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedNews, setExpandedNews] = useState<Record<string, boolean>>({});
   const fetchNews = useServerFn(getNewsList);
 
   useEffect(() => {
@@ -252,41 +241,64 @@ function NewsSection() {
       });
   }, [fetchNews]);
 
+  const toggleExpand = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setExpandedNews((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   const formatDate = (isoString: string | null) => {
     if (!isoString) return "—";
     const d = new Date(isoString);
     return d.toLocaleDateString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
   };
 
+  // Sadece son 3 haberi listeliyoruz
+  const latestNews = dbNews.slice(0, 3);
+
   return (
     <section id="news" className="mx-auto max-w-7xl px-6 py-24">
       <div className="mb-12 text-center">
-        <h2 className="text-4xl font-extrabold md:text-5xl">Son <span className="text-gradient-amber">Güncellemeler</span></h2>
-        <p className="mt-3 text-muted-foreground">Sunucumuza eklenen en yeni özellikler ve haberler.</p>
+        <h2 className="text-4xl font-extrabold md:text-5xl">Son <span className="text-gradient-amber">Haberler</span></h2>
+        <p className="mt-3 text-muted-foreground">Sunucumuzdan en son gelişmeler, etkinlikler ve duyurular.</p>
       </div>
 
       {loading ? (
         <div className="flex justify-center py-12">
           <Loader2 className="size-8 animate-spin text-primary" />
         </div>
-      ) : dbNews.length === 0 ? (
-        <p className="text-center text-sm text-muted-foreground">Henüz eklenmiş bir duyuru bulunmuyor.</p>
+      ) : latestNews.length === 0 ? (
+        <p className="text-center text-sm text-muted-foreground">Henüz eklenmiş bir haber bulunmuyor.</p>
       ) : (
-        <div className="grid gap-6 md:grid-cols-3">
-          {dbNews.map((n) => (
-            <article key={n._id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card p-6 backdrop-blur transition hover:border-primary/40">
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-amber opacity-60" />
-              <div className="mb-4 flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-semibold text-primary">
-                  <Megaphone className="size-3" /> Duyuru
-                </span>
-                <span className="text-xs text-muted-foreground">{formatDate(n.createdAt)}</span>
-              </div>
-              <h3 className="text-xl font-bold line-clamp-1">{n.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{n.content}</p>
-              <a href={`/news/${n.slug}`} className="mt-5 inline-flex text-sm font-semibold text-primary hover:underline">Detaylar →</a>
-            </article>
-          ))}
+        <div className="grid gap-6 md:grid-cols-3 items-start">
+          {latestNews.map((n) => {
+            const isExpanded = !!expandedNews[n._id];
+            return (
+              <article key={n._id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card p-6 backdrop-blur transition hover:border-primary/40">
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-amber opacity-60" />
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-semibold text-primary">
+                    <Megaphone className="size-3" /> Duyuru
+                  </span>
+                  <span className="text-xs text-muted-foreground">{formatDate(n.createdAt)}</span>
+                </div>
+                <h3 className="text-xl font-bold line-clamp-2">{n.title}</h3>
+                
+                <p className={`mt-2 text-sm text-muted-foreground transition-all duration-200 ${isExpanded ? "" : "line-clamp-3"}`}>
+                  {n.content}
+                </p>
+                
+                <button 
+                  onClick={(e) => toggleExpand(n._id, e)} 
+                  className="mt-5 inline-flex text-sm font-semibold text-primary hover:underline bg-transparent border-none cursor-pointer p-0"
+                >
+                  {isExpanded ? "← Kapat" : "Detaylar →"}
+                </button>
+              </article>
+            );
+          })}
         </div>
       )}
     </section>
@@ -302,7 +314,6 @@ function LeaderboardSection() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Haftalık Destekçiler - Kaldırıldı */}
         <div className="rounded-2xl border border-white/10 bg-card p-6 backdrop-blur flex flex-col justify-between">
           <div className="mb-5 flex items-center gap-2 font-semibold">
             <Trophy className="size-5 text-primary" /> Haftalık Destekçiler
@@ -312,10 +323,8 @@ function LeaderboardSection() {
           </div>
         </div>
 
-        {/* Genel Destekçiler - Güncellendi */}
         <LeaderCard icon={<Crown className="size-5" />} title="Genel Destekçiler" rows={overall} label="Efsane Destekçi" />
 
-        {/* Son Mağaza İşlemleri - Kaldırıldı */}
         <div className="rounded-2xl border border-white/10 bg-card p-6 backdrop-blur flex flex-col justify-between">
           <div className="mb-5 flex items-center gap-2 font-semibold">
             <ShoppingBag className="size-5 text-primary" /> Son Mağaza İşlemleri
@@ -339,7 +348,6 @@ function LeaderCard({ icon, title, rows, label }: { icon: React.ReactNode; title
         {rows.map((r, i) => (
           <li key={i} className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
             <span className={`flex size-7 items-center justify-center rounded-md text-xs font-bold ${i === 0 ? "bg-gradient-amber text-primary-foreground" : "bg-white/10 text-muted-foreground"}`}>#{i + 1}</span>
-            <Avatar name={r.name} />
             <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-semibold">{r.name}</div>
               <div className="text-xs text-muted-foreground">{label}</div>
@@ -368,7 +376,7 @@ function ContactSection() {
       email: String(fd.get("email") ?? ""),
       subject: String(fd.get("subject") ?? ""),
       message: String(fd.get("message") ?? ""),
-      website: String(fd.get("website") ?? ""), // honeypot
+      website: String(fd.get("website") ?? ""),
       elapsedMs: Date.now() - mountedAt.current,
     };
 
