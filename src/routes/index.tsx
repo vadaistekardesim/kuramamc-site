@@ -548,35 +548,6 @@ function FAQSection({ faqs, open, setOpen }: { faqs: { q: string; a: string }[];
   );
 }
 
-function FAQSection({ faqs, open, setOpen }: { faqs: { q: string; a: string }[]; open: number | null; setOpen: (n: number | null) => void }) {
-  return (
-    <section id="faq" className="mx-auto max-w-4xl px-6 py-24">
-      <div className="mb-12 text-center">
-        <h2 className="text-4xl font-extrabold md:text-5xl">Sıkça Sorulan <span className="text-gradient-amber">Sorular</span></h2>
-        <p className="mt-3 text-muted-foreground">Sunucumuz hakkında en çok sorulan sorular.</p>
-        <a href="#contact" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-amber px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]">
-          <LifeBuoy className="size-4" /> Destek Al
-        </a>
-      </div>
-      <div className="space-y-3">
-        {faqs.map((f, i) => (
-          <div key={i} className="overflow-hidden rounded-2xl border border-white/10 bg-card backdrop-blur">
-            <button onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between px-5 py-4 text-left">
-              <span className="flex items-center gap-3 font-semibold">
-                <HelpCircle className="size-5 text-primary" />
-                <span className="text-sm text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
-                {f.q}
-              </span>
-              <ChevronDown className={`size-5 text-muted-foreground transition ${open === i ? "rotate-180" : ""}`} />
-            </button>
-            {open === i && <div className="border-t border-white/5 px-5 py-4 text-sm text-muted-foreground">{f.a}</div>}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function CTASection({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
   return (
     <section className="relative isolate overflow-hidden">
