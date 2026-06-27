@@ -1,24 +1,34 @@
-// src/lib/db.ts
-import { createServerFn } from '@tanstack/react-start'; // Doğru paket yolu
 import { MongoClient } from 'mongodb';
 
-const client = new MongoClient(process.env.MONGODB_URI!);
+// Cloudflare Workers/Pages ortamında çevre değişkenlerini garantiye almak için kontrol
+const uri = typeof process !== 'undefined' && process.env ? process.env.MONGODB_URI : null;
 
-export async function connectToDatabase() {
-  if (!client.topology || !client.topology.isConnected()) {
-    await client.connect();
-  }
-  return client.db('kuramamc');
+// Eğer üstteki boşsa global context'i (Cloudflare binding) kontrol et
+const MONGODB_URI = uri || (globalThis as any).MONGODB_URI || (globalThis as any).process?.env?.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error("Kritik Hata: MONGODB_URI tanımlı değil!");
 }
 
-export const getNews = createServerFn({ method: 'GET' }).handler(async () => {
-  const db = await connectToDatabase();
-  return await db.collection('news').find().toArray();
-});
+// Serverless ortamda (Cloudflare) bağlantıyı önbelleğe alarak havuz (pool) oluşturuyoruz
+let cachedClient: MongoClient | null = null;
 
-export const getNewsBySlug = createServerFn({ method: 'GET' })
-  .validator((slug: string) => slug)
-  .handler(async ({ data: slug }) => {
-    const db = await connectToDatabase();
-    return await db.collection('news').findOne({ slug });
+export async function connectToDatabase() {
+  if (!MONGODB_URI) {
+    throw new Error("MONGODB_URI çevre kütüphanesinde veya global değişkenlerde bulunamadı.");
+  }
+
+  if (cachedClient && cachedClient.topology && cachedClient.topology.isConnected()) {
+    return cachedClient.db();
+  }
+
+  // Yeni bağlantı oluştur ve optimize et
+  const client = new MongoClient(MONGODB_URI, {
+    maxPoolSize: 10, // Bağlantı şişmesini önler
+    minPoolSize: 1,
   });
+
+  await client.connect();
+  cachedClient = client;
+  return client.db();
+}
