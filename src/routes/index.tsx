@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react"; // <-- Patlamaya sebep olan useRef buraya eklendi
 import { useServerFn } from "@tanstack/react-start";
 import { Copy, LogIn, UserPlus, Users, Activity, ChevronDown, MessageCircle, Server, ShoppingBag, LifeBuoy, Circle as HelpCircle, Trophy, Crown, Sparkles, Mail, Send, CircleCheck as CheckCircle2, Loader as Loader2, Signal, Wifi, Clock, Calendar, User, ArrowRight, Image as ImageIcon } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -33,7 +33,6 @@ const faqs = [
   { q: "Hangi sürümlerden bağlanabilirim?", a: "1.20.x ve üzeri tüm Java Edition sürümlerinden bağlanabilirsiniz." },
 ];
 
-// BLOG SAYFASINDAKİ RESİMLİ VE SLUG'LI YENİ HABER YAPISI ENTEGRE EDİLDİ
 const STATIC_NEWS = [
   {
     _id: "1",
@@ -51,7 +50,7 @@ const STATIC_NEWS = [
     tag: "DUYURU",
     title: "☁️ Gelişmiş Skyblock Dünyası Geliyor!",
     author: "MrShivada",
-    image: "", // Boş bırakıldığı için şık gradient yer tutucu görünecek
+    image: "", 
     excerpt: "Gökyüzündeki imparatorluğunuzu kurmaya hazır olun. Tamamen baştan tasarlanan gelişmiş Skyblock sunucumuz çok yakında kapılarını açıyor!",
     createdAt: "2026-06-28T10:00:00.000Z"
   }
@@ -70,7 +69,6 @@ function Home() {
 
   return (
     <div className="min-h-screen overflow-x-hidden select-none">
-      {/* Özel Giriş Efekti Stili */}
       <style>{`
         @keyframes customScaleUp {
           0% {
@@ -149,7 +147,7 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
           <span className="text-gradient-amber">KuramaMC</span>
         </h1>
         <p className="mt-6 max-w-xl text-lg text-muted-foreground opacity-0 animate-entrance delay-3">
-          Gelişmiş altyapısı, kaliteli sistemleri ve kararlı yapısıyla benzersiz bir Minecraft deneyimi.
+          Gelişmiş altyapısı, kaliteli sistemleri & kararlı yapısıyla benzersiz bir Minecraft deneyimi.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3 opacity-0 animate-entrance delay-4">
@@ -278,7 +276,6 @@ function NewsSection() {
             key={item._id} 
             className="group flex flex-col bg-[#151a23]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
           >
-            {/* KART ÜSTÜ RESİM ALANI */}
             <div className="w-full h-48 relative overflow-hidden bg-gray-900 flex items-center justify-center border-b border-gray-800">
               {item.image ? (
                 <img 
@@ -320,7 +317,6 @@ function NewsSection() {
                   <span>{item.author}</span>
                 </div>
                 
-                {/* DOĞRUDAN DETAY SAYFASI LİNKİNE GÖNDEREN YAPI */}
                 <Link 
                   to={`/blog/haberler/${item.slug}`}
                   className="inline-flex items-center gap-1 text-sm font-semibold text-orange-500 group-hover:text-orange-400"
@@ -400,6 +396,7 @@ function LeaderCard({ icon, title, rows, label }: { icon: React.ReactNode; title
   );
 }
 
+// BU BİLEŞEN ARTIK HATA VERMEYECEK
 function ContactSection() {
   const [state, setState] = useState<"idle" | "loading" | "ok" | "err">("idle");
   const [errMsg, setErrMsg] = useState("");
