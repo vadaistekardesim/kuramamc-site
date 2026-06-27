@@ -25,8 +25,6 @@ const overall = [
   { name: "NF4EVER", amount: "625.00 ₺" },
   { name: "Rixon323", amount: "400.00 ₺" },
   { name: "Admin", amount: "1.00 ₺" },
-  { name: "Admin", amount: "1.00 ₺" },
-  { name: "Admin", amount: "1.00 ₺" },
 ];
 
 const faqs = [
@@ -97,10 +95,10 @@ function Hero({ copyIp, copied }: { copyIp: () => void; copied: boolean }) {
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
           {[
             { l: "Ana Sayfa", h: "#" },
-            { l: "Launcher", h: "#status" },
-            { l: "Haberler", h: "#news" },
-            { l: "Mağaza", h: "#" },
-            { l: "Destek", h: "#contact" }
+            { l: "Launcher", h: "/launcher" },
+            { l: "Haberler", h: "/blog" },
+            { l: "Mağaza", h: "/magaza" },
+            { l: "Destek", h: "/destek" }
           ].map((x, i) => (
             <a key={x.l} href={x.h} className={`rounded-full px-4 py-2 text-sm transition ${i === 0 ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground"}`}>{x.l}</a>
           ))}
