@@ -1,5 +1,5 @@
 // src/routes/blog.tsx
-import { createFileRoute, Link, Outlet, useLocation } from '@tanstack/react-router';
+import { createFileRoute, Link, useLocation } from '@tanstack/react-router';
 import { Calendar, User, ArrowRight, BookOpen, Eye, MessageSquare, ChevronRight, Home, Server, MessageCircle, LogIn, UserPlus } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -9,13 +9,13 @@ import { getServerStatus } from "@/lib/site.functions";
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
 
-// GELİŞMİŞ TEMA KONSEPTİNE UYGUN BAŞTAN DİZAYN EDİLEN HABER VERİLERİ
+// BAŞLIKLARI KISALTILMIŞ GELİŞMİŞ TOWNY & SKYBLOCK HABERLERİ
 const MANUAL_NEWS = [
   {
     _id: "1",
     slug: "towny-yakinda-aciliyor",
     tag: "DUYURU",
-    title: "⚔️ KuramaMC Gelişmiş Towny Dünyası Kapılarını Açıyor!",
+    title: "⚔️ Gelişmiş Towny Dünyası Açılıyor!",
     author: "MrShivada",
     excerpt: "Gelişmiş teması, eşsiz mekanikleri ve kusursuz ağ mimarisiyle yeni Towny sunucumuz çok yakın...",
     body: `Değerli KuramaMC topluluğu ve asil kasaba liderleri,
@@ -33,7 +33,32 @@ Açılış tarihi, açılışa özel büyük etkinlik takvimi, spawner ve başla
 
 Takipte kalın, gözünüz bizde olsun.`,
     createdAt: "2026-06-27T13:25:00.000Z",
-    views: 1,
+    views: 124,
+    comments: 0
+  },
+  {
+    _id: "2",
+    slug: "skyblock-yakinda-aciliyor",
+    tag: "DUYURU",
+    title: "☁️ Gelişmiş Skyblock Dünyası Geliyor!",
+    author: "MrShivada",
+    excerpt: "Gökyüzündeki imparatorluğunuzu kurmaya hazır olun. Tamamen baştan tasarlanan gelişmiş Skyblock sunucumuz çok yakında kapılarını açıyor!",
+    body: `Selam KuramaMC adalıları,
+
+Skyblock deneyimini gökyüzünün ötesine taşımaya hazır mısınız? Klasik, sıkıcı ve sadece jeneratör kazmaktan ibaret olan Skyblock anlayışını tamamen yıkıyoruz. KuramaMC Network vizyonuna yakışır, baştan aşağı gelişmiş sistemlerle donatılmış yepyeni Skyblock dünyamızın açılışını gururla duyururuz!
+
+💎 Sıfırdan Açılacak Skyblock Dünyamızın Öne Çıkan Özellikleri:
+
+• Gelişmiş Ada Yönetimi: Yepyeni yükseltme (upgrade) menüleri, dinamik ada sınırları ve takım görevleri ile adanızı devasa bir imparatorluğa dönüştürün.
+• Otomasyon ve Çiftçilik Devrimi: Özel minyonlar, gelişmiş tarım mekanikleri ve adanıza özel üretim bantları sayesinde pasif gelirinizi optimize edin.
+• Büyük Sezon Ödülleri: Rekabeti en üst düzeye çıkaracak, her hafta güncellenen ada sıralaması (IS-TOP) ödülleri ve özel kozmetikler.
+• Gelişmiş Özel Ekonomi: Enflasyonu önleyen, tamamen optimize edilmiş ve uzun soluklu bir Skyblock ticaret döngüsü.
+
+Gökyüzünün hakimi olmak ve adanızı en tepeye taşımak için hazırlıklara başlayın. Resmi açılış saati ve yeni dünyaya özel avantajlı ön satış detayları çok yakında Discord kanalımızda yayınlanacaktır!
+
+Gökyüzünde görüşmek üzere!`,
+    createdAt: "2026-06-28T10:00:00.000Z",
+    views: 95,
     comments: 0
   }
 ];
@@ -49,23 +74,21 @@ function BlogComponent() {
   const { news } = Route.useLoaderData();
   const location = useLocation();
 
-  // /blog/haberler/... linkine girildiyse sadece detay sayfasını basar
   const isDetailActive = location.pathname.includes('/blog/haberler/');
 
   if (isDetailActive) {
-    // URL'deki slug değerini bulup eşleşen haberin tüm içeriğini çekiyoruz
     const currentSlug = location.pathname.split('/').pop();
     const activeNews = news.find(n => n.slug === currentSlug) || news[0];
 
     return (
       <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
         
-        {/* Üst Alan: Header ve Arka Plan Görselleri */}
+        {/* Üst Alan: Header ve Arka Plan */}
         <section className="relative isolate overflow-hidden pb-12">
           <img src={heroBg} alt="" width={1920} height={1280} className="absolute inset-0 -z-10 h-full w-full object-cover" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber-500/20 via-background/80 to-background" />
           
-          {/* Üst Menü / Navbar */}
+          {/* Navbar */}
           <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
             <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
               <div className="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5">
@@ -98,16 +121,15 @@ function BlogComponent() {
             </div>
           </header>
 
-          {/* KuramaMC Logosu */}
           <div className="relative z-10 mx-auto flex flex-col items-center pt-8 text-center">
             <img src={logo} alt="KuramaMC" width={96} height={96} className="drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.4)]" />
           </div>
         </section>
 
-        {/* Sayfa İçerik Alanı */}
+        {/* İçerik Alanı */}
         <main className="mx-auto max-w-4xl px-6 pb-24">
           
-          {/* Breadcrumb (Yol Haritası) */}
+          {/* Breadcrumb */}
           <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-card/60 px-4 py-2.5 text-xs font-medium text-muted-foreground backdrop-blur">
             <Link to="/" className="flex items-center gap-1 hover:text-foreground transition">
               <Home className="size-3.5" /> Ana Sayfa
@@ -120,16 +142,15 @@ function BlogComponent() {
             <span className="text-primary font-semibold truncate max-w-[240px]">{activeNews.title}</span>
           </div>
 
-          {/* Ana Haber İçerik Kutusu (Yazıların Tamamı Burada Yüklenir) */}
+          {/* Haber Detay Kutusu */}
           <article className="overflow-hidden rounded-3xl border border-white/10 bg-card/70 backdrop-blur-md shadow-2xl">
             <div className="p-6 sm:p-8">
               
-              {/* Haber Başlığı */}
               <h1 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl text-foreground mb-6">
                 {activeNews.title}
               </h1>
 
-              {/* Profil ve Bilgi Çubuğu */}
+              {/* Bilgi Çubuğu */}
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
                 <div className="flex items-center gap-3">
                   <img
@@ -149,7 +170,6 @@ function BlogComponent() {
                   </div>
                 </div>
 
-                {/* Sayaçlar */}
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-muted-foreground">
                     <Eye className="size-3.5 text-amber-500/80" /> {activeNews.views}
@@ -160,7 +180,7 @@ function BlogComponent() {
                 </div>
               </div>
 
-              {/* Yeni Tasarlanan Uzun Haber Metni (Dinamik Devamı) */}
+              {/* Haber Detay İçeriği */}
               <div className="prose prose-invert max-w-none text-muted-foreground text-sm sm:text-base leading-relaxed whitespace-pre-line">
                 {activeNews.body}
               </div>
@@ -168,14 +188,12 @@ function BlogComponent() {
             </div>
           </article>
 
-          {/* Alt Kısım Bildirimi */}
           <div className="mt-6 rounded-2xl bg-gradient-amber/10 border border-amber-500/20 p-4 text-center text-xs font-bold uppercase tracking-wider text-amber-300 backdrop-blur-sm">
             Yorumlar Kapalı
           </div>
 
         </main>
 
-        {/* Footer */}
         <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground">
           © {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.
         </footer>
@@ -183,12 +201,11 @@ function BlogComponent() {
     );
   }
 
-  // --- BURASI ANA BLOG LİSTELEME EKRANI (LİSTE HALİ) ---
+  // --- ANA LİSTELEME EKRANI ---
   return (
     <div className="min-h-screen bg-[#0b0c10] text-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         
-        {/* Başlık Alanı */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm font-medium mb-4 border border-orange-500/20">
             <BookOpen size={16} />
@@ -198,19 +215,18 @@ function BlogComponent() {
             Haberler & Güncellemeler
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Sunucumuzla ilgili en son gelişmeleri ve yama notlarını buradan takip edebilirsiniz.
+            Sıfırdan açılacak gelişmiş Towny ve Skyblock dünyalarımızın en güncel gelişmelerini buradan takip edebilirsiniz.
           </p>
         </div>
 
-        {/* Haber Kartları Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Haber Kartları Grid (2 Kart Yan Yana) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {news.map((item) => (
             <article 
               key={item._id} 
               className="group flex flex-col bg-[#151a23] rounded-xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
             >
               <div className="p-6 flex flex-col flex-grow">
-                {/* Tag / Kategori */}
                 <div className="flex items-center justify-between mb-3">
                   <span className="bg-orange-500/10 text-orange-500 font-bold text-xs px-2.5 py-1 rounded border border-orange-500/20 uppercase">
                     {item.tag}
@@ -221,17 +237,14 @@ function BlogComponent() {
                   </span>
                 </div>
 
-                {/* Başlık */}
                 <h2 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors line-clamp-2">
                   {item.title}
                 </h2>
 
-                {/* Özet */}
                 <p className="text-gray-400 text-sm line-clamp-3 mb-6 flex-grow">
                   {item.excerpt}
                 </p>
 
-                {/* Alt Bilgiler ve Link */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-800 mt-auto">
                   <div className="flex items-center gap-1 text-xs text-gray-400">
                     <User size={12} className="text-orange-500" />
