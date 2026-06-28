@@ -9,7 +9,6 @@ import { getServerStatus } from "@/lib/site.functions";
 
 const SERVER_IP = "oyna.kuramamc.com.tr";
 
-// HABERLERE IMAGE ALANI EKLENDİ
 const MANUAL_NEWS = [
   {
     _id: "1",
@@ -17,7 +16,6 @@ const MANUAL_NEWS = [
     tag: "DUYURU",
     title: "⚔️ Gelişmiş Towny Dünyası Açılıyor!",
     author: "MrShivada",
-    // İster lokal import (Örn: townyImg), ister uzak URL ekleyebilirsin
     image: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=1200", 
     excerpt: "Gelişmiş teması, eşsiz mekanikleri ve kusursuz ağ mimarisiyle yeni Towny sunucumuz çok yakın...",
     body: `Değerli KuramaMC topluluğu ve asil kasaba liderleri,
@@ -28,7 +26,7 @@ Uzun süredir arka planda titizlikle yürüttüğümüz, her bir detayı ince in
 
 • Optimize Edilmiş Ağ Mimarisi: Sıfır gecikme (lag) ve yüksek TPS garantisiyle kesintisiz bir savaş ve üretim deneyimi.
 • Özel Geliştirilmiş Mekanikler: Kasabanızı büyütürken ve krallığınızı kurarken derin stratejiler oluşturabileceğiniz benzersiz eklentiler.
-• Gelişmiş Ekonomi ve Ticaret: Tamamen oyuncuların yön verdiği, dengeli ve rekabetçi bir piyasa ekosistemi.
+• Gelişmiş Ekonomi ve Ticaret: Tamamen oyuncuların yön verdiği, dengeli ve rekabetçi bir piyasa ekosistema.
 • Kusursuz Görsel Tasarım: KuramaMC kalitesini her detayda hissettiren arayüzler ve özel içerikler.
 
 Açılış tarihi, açılışa özel büyük etkinlik takvimi, spawner ve başlangıç kiti detayları çok yakında Discord sunucumuz üzerinden eş zamanlı olarak duyurulacaktır. Kendi krallığınızı kurmaya ve bu büyük macerada yerinizi almaya hazır olun!
@@ -44,7 +42,7 @@ Takipte kalın, gözünüz bizde olsun.`,
     tag: "DUYURU",
     title: "☁️ Gelişmiş Skyblock Dünyası Geliyor!",
     author: "MrShivada",
-    image: "", // Boş bırakılırsa otomatik şık bir yer tutucu gradient görünecek
+    image: "", 
     excerpt: "Gökyüzündeki imparatorluğunuzu kurmaya hazır olun. Tamamen baştan tasarlanan gelişmiş Skyblock sunucumuz çok yakında kapılarını açıyor!",
     body: `Selam KuramaMC adalıları,
 
@@ -84,7 +82,7 @@ function BlogComponent() {
       <img src={heroBg} alt="" width={1920} height={1280} className="absolute inset-0 -z-10 h-full w-full object-cover" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber-500/20 via-background/80 to-background" />
       
-      <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+      <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-5 opacity-0 animate-entrance">
         <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/30 px-2 py-2 backdrop-blur md:flex">
           <div className="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5">
             <Server className="size-4 text-primary" />
@@ -117,179 +115,202 @@ function BlogComponent() {
       </header>
 
       <div className="relative z-10 mx-auto flex flex-col items-center pt-8 text-center px-4">
-        <img src={logo} alt="KuramaMC" width={96} height={96} className="drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.4)] mb-6" />
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm font-medium mb-4 border border-orange-500/20 backdrop-blur-sm">
+        <img src={logo} alt="KuramaMC" width={96} height={96} className="drop-shadow-[0_8px_24px_oklch(0.7_0.2_60/0.4)] mb-6 opacity-0 animate-entrance delay-1" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm font-medium mb-4 border border-orange-500/20 backdrop-blur-sm opacity-0 animate-entrance delay-1">
           <BookOpen size={16} />
           <span>KuramaMC Günlükleri</span>
         </div>
-        <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4 font-display">
+        <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4 font-display opacity-0 animate-entrance delay-2">
           {titleText}
         </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
+        <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base opacity-0 animate-entrance delay-3">
           {descriptionText}
         </p>
       </div>
     </section>
   );
 
-  if (isDetailActive) {
-    const currentSlug = location.pathname.split('/').pop();
-    const activeNews = news.find(n => n.slug === currentSlug) || news[0];
-
-    return (
-      <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-        {renderHeader("Haberler & Güncellemeler", "Sunucumuzla ilgili en son gelişmeleri buradan takip edebilirsiniz.")}
-
-        <main className="mx-auto max-w-4xl px-6 pb-24 -mt-4 relative z-20">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-card/60 px-4 py-2.5 text-xs font-medium text-muted-foreground backdrop-blur">
-            <Link to="/" className="flex items-center gap-1 hover:text-foreground transition">
-              <Home className="size-3.5" /> Ana Sayfa
-            </Link>
-            <ChevronRight className="size-3 text-white/30" />
-            <Link to="/blog" className="hover:text-foreground transition">Haber</Link>
-            <ChevronRight className="size-3 text-white/30" />
-            <span className="text-white/40">Bildiri</span>
-            <ChevronRight className="size-3 text-white/30" />
-            <span className="text-primary font-semibold truncate max-w-[240px]">{activeNews.title}</span>
-          </div>
-
-          <article className="overflow-hidden rounded-3xl border border-white/10 bg-card/70 backdrop-blur-md shadow-2xl">
-            
-            {/* DETAY SAYFASI GÖRSEL ALANI */}
-            {activeNews.image ? (
-              <div className="w-full h-64 md:h-96 relative overflow-hidden border-b border-white/10">
-                <img 
-                  src={activeNews.image} 
-                  alt={activeNews.title} 
-                  className="w-full h-full object-cover select-none" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
-              </div>
-            ) : (
-              <div className="w-full h-32 bg-gradient-to-r from-amber-600/20 via-orange-600/10 to-transparent border-b border-white/5" />
-            )}
-
-            <div className="p-6 sm:p-8">
-              <h1 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl text-foreground mb-6">
-                {activeNews.title}
-              </h1>
-
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
-                <div className="flex items-center gap-3">
-                  <img
-                    src="https://minotar.net/avatar/MrShivada/38"
-                    alt={activeNews.author}
-                    width={38}
-                    height={38}
-                    className="rounded-md bg-white/5 ring-1 ring-white/10 shadow-md"
-                  />
-                  <div>
-                    <div className="text-sm font-bold text-foreground flex items-center gap-1.5">
-                      <User className="size-3.5 text-primary" /> {activeNews.author}
-                    </div>
-                    <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                      <Calendar className="size-3" /> {new Date(activeNews.createdAt).toLocaleDateString('tr-TR')}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-                    <Eye className="size-3.5 text-amber-500/80" /> {activeNews.views}
-                  </div>
-                  <div className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-                    <MessageSquare className="size-3.5 text-primary" /> {activeNews.comments}
-                  </div>
-                </div>
-              </div>
-
-              <div className="prose prose-invert max-w-none text-muted-foreground text-sm sm:text-base leading-relaxed whitespace-pre-line">
-                {activeNews.body}
-              </div>
-            </div>
-          </article>
-
-          <div className="mt-6 rounded-2xl bg-gradient-amber/10 border border-amber-500/20 p-4 text-center text-xs font-bold uppercase tracking-wider text-amber-300 backdrop-blur-sm">
-            Yorumlar Kapalı
-          </div>
-        </main>
-
-        <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.
-        </footer>
-      </div>
-    );
-  }
-
-  // --- ANA LİSTELEME EKRANI ---
   return (
-    <div className="min-h-screen bg-background text-white">
-      {renderHeader("Haberler & Güncellemeler", "Sıfırdan açılacak gelişmiş Towny ve Skyblock dünyalarımızın en güncel gelişmelerini buradan takip edebilirsiniz.")}
-      
-      <div className="max-w-6xl mx-auto px-4 pb-24 pt-12 relative z-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {news.map((item) => (
-            <article 
-              key={item._id} 
-              className="group flex flex-col bg-[#151a23]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1"
-            >
-              {/* KART ÜSTÜ RESİM ALANI */}
-              <div className="w-full h-48 relative overflow-hidden bg-gray-900 flex items-center justify-center border-b border-gray-800">
-                {item.image ? (
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none" 
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-orange-600/20 via-slate-800 to-[#151a23] flex items-center justify-center">
-                    <ImageIcon className="size-8 text-gray-700 group-hover:text-orange-500/40 transition-colors" />
-                  </div>
-                )}
-                <div className="absolute top-4 left-4">
-                  <span className="bg-orange-500/90 backdrop-blur text-white font-bold text-[10px] tracking-wide px-2.5 py-1 rounded-md uppercase shadow-md">
-                    {item.tag}
-                  </span>
-                </div>
-              </div>
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 select-none">
+      {/* Ortak Giriş Animasyonu Stilleri */}
+      <style>{`
+        @keyframes customScaleUp {
+          0% {
+            opacity: 0;
+            transform: scale(0.6) translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+        .animate-entrance {
+          animation: customScaleUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-1 { animation-delay: 100ms; }
+        .delay-2 { animation-delay: 200ms; }
+        .delay-3 { animation-delay: 300ms; }
+        .delay-4 { animation-delay: 400ms; }
+      `}</style>
 
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs flex items-center gap-1 text-gray-500">
-                    <Calendar size={12} />
-                    {new Date(item.createdAt).toLocaleDateString('tr-TR')}
-                  </span>
-                </div>
+      {isDetailActive ? (
+        // --- DETAY SAYFASI EKRANI ---
+        <>
+          {renderHeader("Haberler & Güncellemeler", "Sunucumuzla ilgili en son gelişmeleri buradan takip edebilirsiniz.")}
 
-                <h2 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors line-clamp-2">
-                  {item.title}
-                </h2>
-
-                <p className="text-gray-400 text-sm line-clamp-2 mb-6 flex-grow">
-                  {item.excerpt}
-                </p>
-
-                <div className="flex items-center justify-between pt-4 border-t border-gray-800 mt-auto">
-                  <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <User size={12} className="text-orange-500" />
-                    <span>{item.author}</span>
-                  </div>
-                  
-                  <Link 
-                    to={`/blog/haberler/${item.slug}`}
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-orange-500 group-hover:text-orange-400"
-                  >
-                    Detaylar 
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          {/* Haber bulunamazsa ilk habere fallback yapıyoruz */}
+          {(() => {
+            const currentSlug = location.pathname.split('/').pop();
+            const activeNews = news.find(n => n.slug === currentSlug) || news[0];
+            
+            return (
+              <main className="mx-auto max-w-4xl px-6 pb-24 -mt-4 relative z-20">
+                <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-card/60 px-4 py-2.5 text-xs font-medium text-muted-foreground backdrop-blur opacity-0 animate-entrance delay-3">
+                  <Link to="/" className="flex items-center gap-1 hover:text-foreground transition">
+                    <Home className="size-3.5" /> Ana Sayfa
                   </Link>
+                  <ChevronRight className="size-3 text-white/30" />
+                  <Link to="/blog" className="hover:text-foreground transition">Haber</Link>
+                  <ChevronRight className="size-3 text-white/30" />
+                  <span className="text-white/40">Bildiri</span>
+                  <ChevronRight className="size-3 text-white/30" />
+                  <span className="text-primary font-semibold truncate max-w-[240px]">{activeNews.title}</span>
                 </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
 
-      <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground">
+                <article className="overflow-hidden rounded-3xl border border-white/10 bg-card/70 backdrop-blur-md shadow-2xl opacity-0 animate-entrance delay-4">
+                  {activeNews.image ? (
+                    <div className="w-full h-64 md:h-96 relative overflow-hidden border-b border-white/10">
+                      <img 
+                        src={activeNews.image} 
+                        alt={activeNews.title} 
+                        className="w-full h-full object-cover select-none" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
+                    </div>
+                  ) : (
+                    <div className="w-full h-32 bg-gradient-to-r from-amber-600/20 via-orange-600/10 to-transparent border-b border-white/5" />
+                  )}
+
+                  <div className="p-6 sm:p-8">
+                    <h1 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl text-foreground mb-6">
+                      {activeNews.title}
+                    </h1>
+
+                    <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src="https://minotar.net/avatar/MrShivada/38"
+                          alt={activeNews.author}
+                          width={38}
+                          height={38}
+                          className="rounded-md bg-white/5 ring-1 ring-white/10 shadow-md"
+                        />
+                        <div>
+                          <div className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                            <User className="size-3.5 text-primary" /> {activeNews.author}
+                          </div>
+                          <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                            <Calendar className="size-3" /> {new Date(activeNews.createdAt).toLocaleDateString('tr-TR')}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                          <Eye className="size-3.5 text-amber-500/80" /> {activeNews.views}
+                        </div>
+                        <div className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                          <MessageSquare className="size-3.5 text-primary" /> {activeNews.comments}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="prose prose-invert max-w-none text-muted-foreground text-sm sm:text-base leading-relaxed whitespace-pre-line">
+                      {activeNews.body}
+                    </div>
+                  </div>
+                </article>
+
+                <div className="mt-6 rounded-2xl bg-gradient-amber/10 border border-amber-500/20 p-4 text-center text-xs font-bold uppercase tracking-wider text-amber-300 backdrop-blur-sm opacity-0 animate-entrance delay-4">
+                  Yorumlar Kapalı
+                </div>
+              </main>
+            );
+          })()}
+        </>
+      ) : (
+        // --- ANA LİSTELEME EKRANI ---
+        <>
+          {renderHeader("Haberler & Güncellemeler", "Sıfırdan açılacak gelişmiş Towny ve Skyblock dünyalarımızın en güncel gelişmelerini buradan takip edebilirsiniz.")}
+          
+          <div className="max-w-6xl mx-auto px-4 pb-24 pt-12 relative z-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {news.map((item, index) => (
+                <article 
+                  key={item._id} 
+                  className={`group flex flex-col bg-[#151a23]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-500/50 transition-all duration-300 shadow-xl hover:-translate-y-1 opacity-0 animate-entrance ${
+                    index === 0 ? 'delay-3' : 'delay-4'
+                  }`}
+                >
+                  {/* KART ÜSTÜ RESİM ALANI */}
+                  <div className="w-full h-48 relative overflow-hidden bg-gray-900 flex items-center justify-center border-b border-gray-800">
+                    {item.image ? (
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none" 
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-orange-600/20 via-slate-800 to-[#151a23] flex items-center justify-center">
+                        <ImageIcon className="size-8 text-gray-700 group-hover:text-orange-500/40 transition-colors" />
+                      </div>
+                    )}
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-orange-500/90 backdrop-blur text-white font-bold text-[10px] tracking-wide px-2.5 py-1 rounded-md uppercase shadow-md">
+                        {item.tag}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs flex items-center gap-1 text-gray-500">
+                        <Calendar size={12} />
+                        {new Date(item.createdAt).toLocaleDateString('tr-TR')}
+                      </span>
+                    </div>
+
+                    <h2 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors line-clamp-2">
+                      {item.title}
+                    </h2>
+
+                    <p className="text-gray-400 text-sm line-clamp-2 mb-6 flex-grow">
+                      {item.excerpt}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-800 mt-auto">
+                      <div className="flex items-center gap-1 text-xs text-gray-400">
+                        <User size={12} className="text-orange-500" />
+                        <span>{item.author}</span>
+                      </div>
+                      
+                      <Link 
+                        to={`/blog/haberler/${item.slug}`}
+                        className="inline-flex items-center gap-1 text-sm font-semibold text-orange-500 group-hover:text-orange-400"
+                      >
+                        Detaylar 
+                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground opacity-0 animate-entrance delay-4">
         © {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.
       </footer>
     </div>
