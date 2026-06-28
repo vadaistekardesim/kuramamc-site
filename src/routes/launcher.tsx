@@ -1,6 +1,6 @@
 // src/routes/launcher.tsx
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { Download, Cpu, ShieldCheck, Zap, Server, MessageCircle, LogIn, UserPlus, Layers, Monitor, Terminal, Sliders, Sparkles, CheckCircle2, ShieldAlert, Code, HelpCircle, ArrowRight } from 'lucide-react';
+import { Download, Cpu, ShieldCheck, Zap, Server, MessageCircle, LogIn, UserPlus, Layers, Monitor, Terminal, Sliders, Sparkles, CheckCircle2, ShieldAlert, Code, HelpCircle, ArrowRight, Activity, Users, Settings2, Shield, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -15,6 +15,9 @@ export const Route = createFileRoute('/launcher')({
 });
 
 function LauncherComponent() {
+  // S.S.S için basit state yönetimi
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 select-none antialiased">
       {/* Gelişmiş Giriş Animasyonları */}
@@ -89,7 +92,7 @@ function LauncherComponent() {
           </p>
 
           {/* İndirme Butonu */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 opacity-0 animate-entrance delay-4 mb-16 w-full justify-center px-4">
+          <div className="flex flex-col sm:flex-row items-center gap-4 opacity-0 animate-entrance delay-4 mb-12 w-full justify-center px-4">
             <a
               href={DOWNLOAD_LINK}
               target="_blank"
@@ -101,6 +104,26 @@ function LauncherComponent() {
             </a>
           </div>
 
+          {/* LAUNCHER CANLI İSTATİSTİKLER PANELİ */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl px-4 mb-12 opacity-0 animate-entrance delay-4">
+            {[
+              { label: "Toplam İndirme", value: "10,000+", icon: Download, color: "text-amber-500" },
+              { label: "Anlık Koruma", value: "Aktif", icon: Shield, color: "text-emerald-500" },
+              { label: "Ortalama Ping", value: "12ms", icon: Activity, color: "text-blue-500" },
+              { label: "Uyumlu Java Sürümü", value: "Java 17/21", icon: Code, color: "text-orange-500" }
+            ].map((stat, i) => (
+              <div key={i} className="bg-neutral-950/40 border border-white/5 rounded-xl p-4 flex items-center gap-3 backdrop-blur-sm text-left hover:border-white/10 transition">
+                <div className={`p-2 rounded-lg bg-white/5 ${stat.color}`}>
+                  <stat.icon className="size-5" />
+                </div>
+                <div>
+                  <div className="text-[11px] text-neutral-500 font-medium uppercase tracking-wider">{stat.label}</div>
+                  <div className="text-base font-bold text-white mt-0.5">{stat.value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
           {/* MOCKUP PANEL */}
           <div className="w-full max-w-4xl px-4 opacity-0 animate-entrance delay-5">
             <div className="relative rounded-2xl border border-white/10 bg-neutral-950/50 p-2 backdrop-blur shadow-[0_0_50px_rgba(245,158,11,0.08)]">
@@ -109,7 +132,7 @@ function LauncherComponent() {
                 <div className="text-center p-6 z-10">
                   <Layers className="size-16 text-amber-500/30 mx-auto mb-4 group-hover:scale-110 transition-transform duration-500" />
                   <p className="text-sm font-semibold text-neutral-400">KuramaLauncher Modern Gösterge Paneli</p>
-                  <p className="text-xs text-neutral-600 mt-1">Gelişmiş RAM tahsisi, akıllı optimizasyon motoru ve yerleşik ağ köprüsü.</p>
+                  <p className="text-xs text-neutral-600 mt-1">Gelişmiş RAM tahsisi, akıllı optimizasyon motoru ve yerleşik hile koruma köprüsü.</p>
                 </div>
               </div>
             </div>
@@ -117,7 +140,29 @@ function LauncherComponent() {
         </div>
       </section>
 
-      {/* ÖZEL SETLER VE EKİPMANLAR VURGUSU */}
+      {/* 3 ADIMDA KOLAY KURULUM BÖLÜMÜ */}
+      <section className="mx-auto max-w-5xl px-6 py-16 opacity-0 animate-entrance delay-5">
+        <div className="text-center mb-12">
+          <span className="text-xs font-bold text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-full">Hızlı Başlangıç</span>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mt-3 font-display">Nasıl Giriş Yapılır?</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+          {[
+            { step: "01", title: "Başlatıcıyı İndir", desc: "Yukarıdaki butona tıklayarak KuramaLauncher.exe dosyasını güvenle bilgisayarına indir." },
+            { step: "02", title: "Kayıt Ol / Giriş Yap", desc: "Sitemizdeki üyelik bilgilerinle launcher üzerinden güvenli bir şekilde oturum aç." },
+            { step: "03", title: "Oyuna Bağlan", desc: "Tek tıkla oyna butonuna bas; gerekli tüm optimizasyonlar otomatik yüklenecek ve sunucu açılacaktır." }
+          ].map((item, i) => (
+            <div key={i} className="bg-neutral-950/40 border border-white/5 rounded-2xl p-6 relative overflow-hidden group hover:border-amber-500/20 transition duration-300">
+              <div className="absolute -top-4 -right-2 text-6xl font-black font-display text-white/[0.02] group-hover:text-amber-500/[0.04] transition duration-300 select-none">{item.step}</div>
+              <div className="size-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-sm mb-4 border border-amber-500/20">{item.step}</div>
+              <h4 className="text-white font-bold text-lg mb-2">{item.title}</h4>
+              <p className="text-neutral-400 text-sm leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ÖZEL SETLER VURGUSU */}
       <section className="mx-auto max-w-5xl px-6 py-12 opacity-0 animate-entrance delay-5">
         <div className="bg-gradient-to-br from-[#12161f] via-neutral-900 to-[#0e1117] border border-gray-800 rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-orange-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
@@ -257,10 +302,38 @@ function LauncherComponent() {
           </div>
           <div className="text-neutral-500 select-none pb-2 flex items-center gap-1"><Code className="size-3.5 text-amber-500" /> kuramaclient_core.log</div>
           <p className="text-emerald-400">[BAŞARILI] KuramaLauncher optimizasyon motoru stabil durumda.</p>
-          <p className="text-blue-400">[BİLGİ] Sunucuya özel 3D model katmanları başarıyla yüklendi.</p>
+          <p className="text-blue-400">[BİLGİ] Sunucuya özel model katmanları başarıyla yüklendi.</p>
           <p className="text-white">[GÜNCELLEME] GTX 1050 Ti ve dengi donanımlar için kararlılık yaması aktif.</p>
           <p className="text-amber-400">[AĞ] Sunucu veri aktarım köprüleri optimize edildi.</p>
           <p className="text-neutral-600">[BAĞLANTI] IP Dinleniyor: oyna.kuramamc.com.tr</p>
+        </div>
+      </section>
+
+      {/* SIKÇA SORULAN SORULAR (FAQ) SELEKTÖRÜ */}
+      <section className="mx-auto max-w-3xl px-6 py-12 opacity-0 animate-entrance delay-6">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-extrabold text-white font-display">Sıkça Sorulan Sorular</h2>
+          <p className="text-neutral-400 text-sm mt-1">Başlatıcıyı kullanırken karşılaşabileceğiniz durumlar ve hızlı çözümleri.</p>
+        </div>
+        <div className="space-y-4">
+          {[
+            { q: "Launcher güvenli mi? Windows virüs uyarısı veriyor?", a: "Evet, tamamen güvenlidir. Başlatıcımız yeni derlendiği ve henüz Microsoft veritabanında 'bilinen uygulama' olarak tescillenmediği için Windows SmartScreen uyarısı verebilir. 'Ek Bilgi' diyerek 'Yine de Çalıştır' butonuna basıp güvenle giriş yapabilirsiniz." },
+            { q: "Oyun içi donma (Drop) sorununu nasıl çözerim?", a: "Launcher ayarlar sekmesine giderek bilgisayarınızın toplam RAM miktarının yarısını (Örn: 8GB RAM'iniz varsa 4096MB) sürgü yardımıyla oyuna tahsis edin. Bu drop sorununu tamamen çözecektir." },
+            { q: "Açılışta Java hatası alıyorum, ne yapmalıyım?", a: "KuramaLauncher yerleşik ve optimize edilmiş en güncel Java mimarisini kendisiyle birlikte kurar. Eğer harici bir hata alıyorsanız bilgisayarınızda yüklü olan eski Java sürümlerini denetim masasından kaldırıp tekrar deneyin." }
+          ].map((faq, index) => (
+            <div key={index} className="bg-neutral-950/40 border border-white/5 rounded-xl overflow-hidden transition-all duration-200">
+              <button 
+                onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                className="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base hover:bg-white/[0.02] transition"
+              >
+                <span>{faq.q}</span>
+                <ChevronDown className={`size-4 text-neutral-400 transition-transform duration-200 ${activeFaq === index ? "rotate-180 text-amber-500" : ""}`} />
+              </button>
+              <div className={`transition-all duration-300 overflow-hidden ${activeFaq === index ? "max-h-40 border-t border-white/5" : "max-h-0"}`}>
+                <p className="p-5 text-xs sm:text-sm text-neutral-400 leading-relaxed bg-neutral-950/20">{faq.a}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
