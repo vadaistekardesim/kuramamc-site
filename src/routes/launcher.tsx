@@ -1,6 +1,6 @@
 // src/routes/launcher.tsx
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { Download, Cpu, ShieldCheck, Zap, Server, MessageCircle, LogIn, UserPlus, Layers, Monitor, Terminal, Sliders, Sparkles, CheckCircle2, ShieldAlert, Code, HelpCircle, ArrowRight, Activity, Users, Settings2, Shield, ChevronDown } from 'lucide-react';
+import { Download, Cpu, ShieldCheck, Zap, Server, MessageCircle, LogIn, UserPlus, Layers, Monitor, Terminal, Sliders, Sparkles, CheckCircle2, ShieldAlert, Code, HelpCircle, ArrowRight, Activity, Users, Settings2, Shield, ChevronDown, Radio, Eye, Database, RefreshCw, Network, HardDrive } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -15,7 +15,6 @@ export const Route = createFileRoute('/launcher')({
 });
 
 function LauncherComponent() {
-  // S.S.S için basit state yönetimi
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   return (
@@ -132,7 +131,7 @@ function LauncherComponent() {
                 <div className="text-center p-6 z-10">
                   <Layers className="size-16 text-amber-500/30 mx-auto mb-4 group-hover:scale-110 transition-transform duration-500" />
                   <p className="text-sm font-semibold text-neutral-400">KuramaLauncher Modern Gösterge Paneli</p>
-                  <p className="text-xs text-neutral-600 mt-1">Gelişmiş RAM tahsisi, akıllı optimizasyon motoru ve yerleşik hile koruma köprüsü.</p>
+                  <p className="text-xs text-neutral-600 mt-1">Gelişmiş RAM tahsisi, akıllı optimizasyon motoru ver yerleşik hile koruma köprüsü.</p>
                 </div>
               </div>
             </div>
@@ -162,42 +161,15 @@ function LauncherComponent() {
         </div>
       </section>
 
-      {/* ÖZEL SETLER VURGUSU */}
-      <section className="mx-auto max-w-5xl px-6 py-12 opacity-0 animate-entrance delay-5">
-        <div className="bg-gradient-to-br from-[#12161f] via-neutral-900 to-[#0e1117] border border-gray-800 rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-orange-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="flex-grow space-y-3">
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2.5 py-1 rounded-md">
-              <Sparkles className="size-3" /> Sunucuya Özel İçerikler
-            </span>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-white font-display">Göz Alıcı Özel Setler ve Silahlar</h3>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-xl">
-              Sıradan bir dünyadan çok daha fazlası! KuramaLauncher, sunucumuzda yer alan tamamen benzersiz, özel tasarım zırh setlerini, kılıçları ve tematik ekipmanları en yüksek kalitede, hiçbir ek doku paketi yükleme zahmeti olmadan doğrudan görmenizi sağlar.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3 w-full md:w-auto flex-shrink-0 font-display">
-            <div className="bg-neutral-950/60 border border-white/5 rounded-xl p-4 text-center">
-              <div className="text-[10px] text-amber-400 font-semibold uppercase tracking-wider">Eşsiz Zırh</div>
-              <div className="text-base font-black text-white mt-0.5">Özel Setler</div>
-            </div>
-            <div className="bg-neutral-950/60 border border-white/5 rounded-xl p-4 text-center">
-              <div className="text-[10px] text-orange-400 font-semibold uppercase tracking-wider">Ekipman</div>
-              <div className="text-base font-black text-white mt-0.5">Nadir Kılıçlar</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* LAUNCHER AVANTAJLARI (Donanım Odaklı) */}
+      {/* NEDEN KURAMALAUNCHER? (9'LU DEV MEGAPACK GRID) */}
       <section className="mx-auto max-w-5xl px-6 py-12 opacity-0 animate-entrance delay-5">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight mb-2 font-display">Neden KuramaLauncher?</h2>
-          <p className="text-neutral-400 text-sm max-w-md mx-auto">Launcher ile elde edeceğiniz teknik ayrıcalıklar ve üst düzey kararlılık adımları:</p>
+          <p className="text-neutral-400 text-sm max-w-md mx-auto">Sıradan başlatıcıları unutun. Sizi zirveye taşıyacak teknik altyapı avantajları:</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Satır 1 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="rounded-2xl border border-white/5 bg-card/40 p-6 backdrop-blur-sm shadow-xl hover:border-amber-500/30 transition duration-300">
             <div className="size-12 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 mb-4">
               <Zap className="size-6 text-amber-500" />
@@ -226,6 +198,100 @@ function LauncherComponent() {
             <p className="text-gray-400 text-sm leading-relaxed">
               Sunucuya eklenen en yeni görsel ögeler ve güncellemeler arka planda otomatik olarak senkronize edilir, manuel kuruluma gerek kalmaz.
             </p>
+          </div>
+        </div>
+
+        {/* Satır 2 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div className="rounded-2xl border border-white/5 bg-card/40 p-6 backdrop-blur-sm shadow-xl hover:border-red-500/30 transition duration-300">
+            <div className="size-12 rounded-xl bg-red-500/10 flex items-center justify-center border border-red-500/20 mb-4">
+              <Shield className="size-6 text-red-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Anti-Cheat Engine</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              İstemci çekirdeğine entegre edilmiş imza kontrol mekanizması, dışarıdan yapılabilecek kod enjeksiyonlarını ve hile modlarını oyuna girmeden engeller.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-white/5 bg-card/40 p-6 backdrop-blur-sm shadow-xl hover:border-blue-500/30 transition duration-300">
+            <div className="size-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 mb-4">
+              <Radio className="size-6 text-blue-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Düşük Gecikmeli Köprü</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Veri paketlerini doğrudan sunucu ana omurgasına yönlendiren özel soket yapısı sayesinde, yoğun saatlerde bile bağlantı kopmaları ve ping dalgalanmaları yaşamazsınız.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-white/5 bg-card/40 p-6 backdrop-blur-sm shadow-xl hover:border-cyan-500/30 transition duration-300">
+            <div className="size-12 rounded-xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 mb-4">
+              <Database className="size-6 text-cyan-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Asenkron Chunk Yükleme</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Dünyada hızla hareket ederken oluşan disk darboğazlarını engellemek amacıyla, harita verilerini işlemci çekirdeklerine asenkron olarak dağıtır.
+            </p>
+          </div>
+        </div>
+
+        {/* Satır 3 (Ekstra Çılgın Maddeler) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="rounded-2xl border border-white/5 bg-card/40 p-6 backdrop-blur-sm shadow-xl hover:border-fuchsia-500/30 transition duration-300">
+            <div className="size-12 rounded-xl bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20 mb-4">
+              <RefreshCw className="size-6 text-fuchsia-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">G-Sync/V-Sync Uyum</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Monitörünüzün yenileme hızı (144Hz, 240Hz, 360Hz) ile oyun kare hızını kusursuzca eşler. Ekran yırtılmalarını ve anlık takılmaları sıfıra indirir.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-white/5 bg-card/40 p-6 backdrop-blur-sm shadow-xl hover:border-violet-500/30 transition duration-300">
+            <div className="size-12 rounded-xl bg-violet-500/10 flex items-center justify-center border border-violet-500/20 mb-4">
+              <Code className="size-6 text-violet-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">JIT Bayt-Kod Derleyici</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              İstemci çalıştığı andan itibaren sık kullanılan oyun fonksiyonlarını yerel makine koduna (JIT) önceden derleyerek işlemci yükünü %25 azaltır.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-white/5 bg-card/40 p-6 backdrop-blur-sm shadow-xl hover:border-sky-500/30 transition duration-300">
+            <div className="size-12 rounded-xl bg-sky-500/10 flex items-center justify-center border border-sky-500/20 mb-4">
+              <Network className="size-6 text-sky-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Donanımsal QoS Bypass</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Yerel ağ bağdaştırıcınız üzerinde sunucu bağlantı paketlerine öncelik atayarak evdeki diğer internet kullanımlarından etkilenmenizi önler.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ÖZEL SETLER VURGUSU */}
+      <section className="mx-auto max-w-5xl px-6 py-12 opacity-0 animate-entrance delay-5">
+        <div className="bg-gradient-to-br from-[#12161f] via-neutral-900 to-[#0e1117] border border-gray-800 rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-orange-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="flex-grow space-y-3">
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-2.5 py-1 rounded-md">
+              <Sparkles className="size-3" /> Sunucuya Özel İçerikler
+            </span>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-white font-display">Göz Alıcı Özel Setler ve Silahlar</h3>
+            <p className="text-gray-400 text-sm leading-relaxed max-w-xl">
+              Sıradan bir dünyadan çok daha fazlası! KuramaLauncher, sunucumuzda yer alan tamamen benzersiz, özel tasarım zırh setlerini, kılıçları ve tematik ekipmanları en yüksek kalitede, hiçbir ek doku paketi yükleme zahmeti olmadan doğrudan görmenizi sağlar.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3 w-full md:w-auto flex-shrink-0 font-display">
+            <div className="bg-neutral-950/60 border border-white/5 rounded-xl p-4 text-center">
+              <div className="text-[10px] text-amber-400 font-semibold uppercase tracking-wider">Eşsiz Zırh</div>
+              <div className="text-base font-black text-white mt-0.5">Özel Setler</div>
+            </div>
+            <div className="bg-neutral-950/60 border border-white/5 rounded-xl p-4 text-center">
+              <div className="text-[10px] text-orange-400 font-semibold uppercase tracking-wider">Ekipman</div>
+              <div className="text-base font-black text-white mt-0.5">Nadir Kılıçlar</div>
+            </div>
           </div>
         </div>
       </section>
@@ -262,34 +328,7 @@ function LauncherComponent() {
         </div>
       </section>
 
-      {/* GÜVENLİK VE ADİL OYUN PANELİ */}
-      <section className="mx-auto max-w-5xl px-6 py-12 opacity-0 animate-entrance delay-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-1 bg-red-950/20 border border-red-500/20 rounded-2xl p-6 flex flex-col justify-between">
-            <div>
-              <ShieldAlert className="size-8 text-red-500 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-2">Hilesiz & Adil Rekabet</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">
-                KuramaLauncher, harici enjeksiyonları ve hile girişimlerini ağ seviyesinde bloke eden yerleşik güvenlik katmanlarına sahiptir.
-              </p>
-            </div>
-            <div className="text-xs text-red-400/70 font-mono mt-4">Güvenlik Katmanı v2.4</div>
-          </div>
-          
-          <div className="md:col-span-2 bg-neutral-950/40 border border-white/5 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-              <h4 className="text-white font-bold text-sm mb-1">Makro Filtreleme</h4>
-              <p className="text-neutral-400 text-xs">Donanımsal veya yazılımsal suni tıklamalar akıllı koruma filtreleri tarafından süzülür.</p>
-            </div>
-            <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-              <h4 className="text-white font-bold text-sm mb-1">Veri Doğrulama</h4>
-              <p className="text-neutral-400 text-xs">İstemci bütünlüğü sürekli kontrol edilerek güvenli bir köprü oluşturulur.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CANLI LOG SİMÜLASYONU */}
+      {/* CANLI ÇEKİRDEK NOTLARI & KONSOL (TAM KAPSAM SYSADMIN LOG SİMÜLASYONU) */}
       <section className="mx-auto max-w-5xl px-6 py-12 opacity-0 animate-entrance delay-6">
         <div className="text-center mb-8">
           <h2 className="text-xl md:text-2xl font-bold text-white font-display">Canlı Çekirdek Notları & Konsol</h2>
@@ -301,15 +340,24 @@ function LauncherComponent() {
             <div className="size-2 rounded-full bg-green-500" />
           </div>
           <div className="text-neutral-500 select-none pb-2 flex items-center gap-1"><Code className="size-3.5 text-amber-500" /> kuramaclient_core.log</div>
-          <p className="text-emerald-400">[BAŞARILI] KuramaLauncher optimizasyon motoru stabil durumda.</p>
-          <p className="text-blue-400">[BİLGİ] Sunucuya özel model katmanları başarıyla yüklendi.</p>
-          <p className="text-white">[GÜNCELLEME] GTX 1050 Ti ve dengi donanımlar için kararlılık yaması aktif.</p>
-          <p className="text-amber-400">[AĞ] Sunucu veri aktarım köprüleri optimize edildi.</p>
-          <p className="text-neutral-600">[BAĞLANTI] IP Dinleniyor: oyna.kuramamc.com.tr</p>
+          <p className="text-emerald-400">[SYSTEM] KuramaLauncher ana çekirdek motoru v2.4.8-STABLE aktif edildi.</p>
+          <p className="text-neutral-500">[JVM_LOAD] Java Virtual Machine (TM) OpenJDK 64-Bit Server VM doğrulandı.</p>
+          <p className="text-neutral-500">[JVM_ARGS] Enjekte edilen parametreler: -XX:+UseG1GC -XX:G1ReservePercent=15 -XX:InitiatingHeapOccupancyPercent=45</p>
+          <p className="text-purple-400">[SKRIPT_ENGINE] Custom Skript kütüphane bağlayıcıları ve derleyicileri yükleniyor...</p>
+          <p className="text-blue-400">[ASSET_LOAD] ItemsAdder akıllı 3D model katmanları ve asenkron doku havuzu başarıyla önbelleklendi.</p>
+          <p className="text-white">[GPU_INFO] NVIDIA GeForce GTX 1050 Ti algılandı. OpenGL tampon işleme modülleri optimize edildi.</p>
+          <p className="text-amber-500">[MEMORY] Çöp Toplayıcı (Garbage Collector) çağrıldı. 4096MB fiziksel RAM ana iş parçacığına eşlendi.</p>
+          <p className="text-red-400">[SECURITY] Hile koruma el sıkışması tamamlandı. Kod enjeksiyonu koruması: AKTİF. İmza uyuşmazlığı: 0</p>
+          <p className="text-orange-400">[AUTH_ME] AuthMe API şifreleme köprüsü ve yerel kimlik doğrulama soketleri başarıyla dinleniyor.</p>
+          <p className="text-teal-400">[PROXY_CONN] Velocity / BungeeCord ağ yönlendirme katmanlarına güvenli tünel açıldı.</p>
+          <p className="text-pink-400">[ECOMMERCE] Shopier / İtemSatış mağaza senkronizasyon protokolleri ve lisans anahtarları doğrulandı.</p>
+          <p className="text-cyan-400">[DISPLAY] Monitör dikey senkronizasyon katmanı tetiklendi. Akıllı kare hızı sabitleyici kilitlendi.</p>
+          <p className="text-emerald-500">[TOWNY_SKYBLOCK] Karma ağ mimarisi varlık önbellekleri (Entity Cache) asenkron olarak inşa edildi.</p>
+          <p className="text-neutral-600">[NETWORK] Soket bağlantısı stabil. KuramaMC Network dinleniyor: oyna.kuramamc.com.tr</p>
         </div>
       </section>
 
-      {/* SIKÇA SORULAN SORULAR (FAQ) SELEKTÖRÜ */}
+      {/* SIKÇA SORULAN SORULAR (FAQ) (10 DEVASE SORU-CEVAP DEV ARŞİV) */}
       <section className="mx-auto max-w-3xl px-6 py-12 opacity-0 animate-entrance delay-6">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-extrabold text-white font-display">Sıkça Sorulan Sorular</h2>
@@ -319,7 +367,14 @@ function LauncherComponent() {
           {[
             { q: "Launcher güvenli mi? Windows virüs uyarısı veriyor?", a: "Evet, tamamen güvenlidir. Başlatıcımız yeni derlendiği ve henüz Microsoft veritabanında 'bilinen uygulama' olarak tescillenmediği için Windows SmartScreen uyarısı verebilir. 'Ek Bilgi' diyerek 'Yine de Çalıştır' butonuna basıp güvenle giriş yapabilirsiniz." },
             { q: "Oyun içi donma (Drop) sorununu nasıl çözerim?", a: "Launcher ayarlar sekmesine giderek bilgisayarınızın toplam RAM miktarının yarısını (Örn: 8GB RAM'iniz varsa 4096MB) sürgü yardımıyla oyuna tahsis edin. Bu drop sorununu tamamen çözecektir." },
-            { q: "Açılışta Java hatası alıyorum, ne yapmalıyım?", a: "KuramaLauncher yerleşik ve optimize edilmiş en güncel Java mimarisini kendisiyle birlikte kurar. Eğer harici bir hata alıyorsanız bilgisayarınızda yüklü olan eski Java sürümlerini denetim masasından kaldırıp tekrar deneyin." }
+            { q: "Açılışta Java hatası alıyorum, ne yapmalıyım?", a: "KuramaLauncher yerleşik ve optimize edilmiş en güncel Java mimarisini kendisiyle birlikte kurar. Eğer harici bir hata alıyorsanız bilgisayarınızda yüklü olan eski Java sürümlerini denetim masasından kaldırıp tekrar deneyin." },
+            { q: "Oyun siyah ekranda kalıyor veya çöküyor (Crash)?", a: "Bu durum genellikle ekran kartı sürücülerinizin (özellikle OpenGL desteğinin) güncel olmamasından kaynaklanır. NVIDIA veya AMD sürücülerinizi resmi sitelerinden en son sürüme güncellediğinizde sorun tamamen ortadanacaktır." },
+            { q: "Mac veya Linux işletim sistemleri için destek var mı?", a: "Mevcut sürümümüz (.EXE) Windows mimarisine ve anti-cheat entegrasyonlarına özel olarak optimize edilmiştir. Ancak çok yakında Mac (M serisi dahil) ve Linux kullanıcıları için özel sürümlerimiz de aktif olacaktır. Gelişmeleri Discord üzerinden takip edebilirsiniz." },
+            { q: "Özel eşyalar, ItemsAdder dokuları veya zırhlar bozuk/görünmez çıkıyor?", a: "KuramaLauncher bu dosyaları otomatik olarak senkronize eder. Eğer bir eksiklik veya bozukluk görüyorsanız, launcher ana menüsündeki 'Önbelleği Temizle ve Yeniden Doğrula' butonuna tıklayarak eksik kalan görsel paketlerin (resource pack) baştan ve temiz kurulmasını sağlayabilirsiniz." },
+            { q: "Launcher simgesine tıkladığımda hiç tepki vermiyor, açılmıyor?", a: "Bilgisayarınızdaki bazı üçüncü parti güvenlik duvarları veya kısıtlı kullanıcı yetkileri uygulamanın çekirdek dosyalarını okumasını engelliyor olabilir. KuramaLauncher.exe dosyasına sağ tıklayıp 'Yönetici Olarak Çalıştır' seçeneğini seçerek bu engeli aşabilirsiniz." },
+            { q: "Üçüncü parti bir antivirüs programı launcher'ı sildi/karantinaya aldı?", a: "Gelişmiş hile koruma motorumuz (Anti-Cheat), oyun kodlarına dışarıdan müdahaleyi engellemek için kernel seviyesinde tarama yapar. Bazı agresif antivirüsler bunu yanlış algılayabilir (False-Positive). Antivirüs ayarlarınızdan KuramaLauncher'ı istisnalara/güvenilenlere ekleyerek sorunu çözebilirsiniz." },
+            { q: "Oyun yükleme ekranında %100'de takılı kalıyor?", a: "Bu durum internet bağlantınızın anlık olarak sunucu varlık havuzundan (assets) veri çekememesinden kaynaklanır. Modeminizi kapatıp açtıktan veya launcher ayarlarından 'Ağ Köprüsünü Yeniden Başlat' seçeneğini seçtikten sonra sorun çözülecektir." },
+            { q: "Oyunu arka plana (Alt-Tab) aldığımda oyun çöküyor veya aşırı donuyor?", a: "Launcher ayarlarında yer alan 'Arka Plan Odak Koruyucu' seçeneğini aktif hale getirin. Bu mod, siz oyunda değilken işletim sisteminin Minecraft işlemine ayırdığı kaynakları tamamen kısmasını engelleyerek kararlılığı korur." }
           ].map((faq, index) => (
             <div key={index} className="bg-neutral-950/40 border border-white/5 rounded-xl overflow-hidden transition-all duration-200">
               <button 
@@ -329,7 +384,7 @@ function LauncherComponent() {
                 <span>{faq.q}</span>
                 <ChevronDown className={`size-4 text-neutral-400 transition-transform duration-200 ${activeFaq === index ? "rotate-180 text-amber-500" : ""}`} />
               </button>
-              <div className={`transition-all duration-300 overflow-hidden ${activeFaq === index ? "max-h-40 border-t border-white/5" : "max-h-0"}`}>
+              <div className={`transition-all duration-300 overflow-hidden ${activeFaq === index ? "max-h-48 border-t border-white/5" : "max-h-0"}`}>
                 <p className="p-5 text-xs sm:text-sm text-neutral-400 leading-relaxed bg-neutral-950/20">{faq.a}</p>
               </div>
             </div>
@@ -394,7 +449,7 @@ function LauncherComponent() {
       </section>
 
       <footer className="border-t border-white/10 py-8 text-center text-xs text-muted-foreground opacity-0 animate-entrance delay-7">
-        © {new Date().getFullYear()} KuramaMC — Tüm hakları saklıdır.
+        © {new Date().getFullYear()} KuramaMC — Tüm hakları sablıdır.
       </footer>
     </div>
   );
